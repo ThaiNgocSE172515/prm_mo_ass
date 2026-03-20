@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Kiểm tra nếu đã login thì vào thẳng Home theo Role
         if (SharedPrefsManager.getInstance(this).getAccessToken() != null) {
-            navigateToHome();
+            String role = SharedPrefsManager.getInstance(this).getUserRole();
+            navigateToHome(role);
             return;
         }
 
@@ -88,10 +89,12 @@ public class MainActivity extends AppCompatActivity {
                     ApiResponse<LoginResponseData> apiResponse = response.body();
                     if (apiResponse.isSuccess()) {
                         String token = apiResponse.getData().getAccessToken();
+                        String role = apiResponse.getData().getUser().getRole();
                         SharedPrefsManager.getInstance(MainActivity.this).saveAccessToken(token);
+                        SharedPrefsManager.getInstance(MainActivity.this).saveUserRole(role);
                         
                         Toast.makeText(MainActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                        navigateToHome();
+                        navigateToHome(role);
                     } else {
                         Toast.makeText(MainActivity.this, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -107,9 +110,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void navigateToHome() {
-        // Sau này có thể thêm check Role ở đây để navigate sang Admin/Staff Activity
-        Intent intent = new Intent(MainActivity.this, CitizenHomeActivity.class);
+    private void navigateToHome(String role) {
+        Intent intent;
+        if ("Rescue Coordinator".equals(role)) {
+            intent = new Intent(MainActivity.this, com.example.prm_mo.coordinator.CoordinatorHomeActivity.class);
+        } else {
+            intent = new Intent(MainActivity.this, CitizenHomeActivity.class);
+        }
         startActivity(intent);
         finish();
     }

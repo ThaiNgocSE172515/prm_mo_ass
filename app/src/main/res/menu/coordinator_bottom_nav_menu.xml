@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Dashboard" />
+    <item
+        android:id="@+id/nav_requests"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Yêu cầu" />
+    <item
+        android:id="@+id/nav_missions"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Nhiệm vụ" />
+    <item
+        android:id="@+id/nav_teams"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Q.Lý Team" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Cá nhân" />
+</menu>

@@ -87,5 +87,35 @@
             android:layout_height="wrap_content"
             android:text="2026-03-20" />
 
+        <LinearLayout
+            android:id="@+id/llCoordinatorActions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnVerify"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#10B981"
+                android:textColor="#FFFFFF"
+                android:text="VERIFY (DUYỆT)" />
+
+            <Button
+                android:id="@+id/btnReject"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#EF4444"
+                android:textColor="#FFFFFF"
+                android:text="REJECT (TỪ CHỐI)" />
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
