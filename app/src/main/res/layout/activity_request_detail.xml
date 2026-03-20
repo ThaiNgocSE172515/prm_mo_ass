@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0F172A"
     android:padding="16dp">
 
     <LinearLayout
@@ -9,12 +10,190 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Header -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TIẾN TRÌNH XỬ LÝ"
+                android:textColor="#94A3B8"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <Button
+                android:id="@+id/btnCancelRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="#EF4444"
+                android:text="HỦY YÊU CẦU"
+                android:textSize="10sp"
+                android:textColor="#FFFFFF"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <!-- TIẾN TRÌNH XỬ LÝ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="32dp">
+
+            <!-- Step 1 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/step1_circle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@android:drawable/btn_default"
+                    android:backgroundTint="#334155"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="#94A3B8" />
+                <TextView
+                    android:id="@+id/step1_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đã gửi"
+                    android:textColor="#94A3B8"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <View android:id="@+id/line1" android:layout_width="20dp" android:layout_height="1dp" android:background="#334155" />
+
+            <!-- Step 2 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/step2_circle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@android:drawable/btn_default"
+                    android:backgroundTint="#334155"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="#94A3B8" />
+                <TextView
+                    android:id="@+id/step2_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chấp nhận"
+                    android:textColor="#94A3B8"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <View android:id="@+id/line2" android:layout_width="20dp" android:layout_height="1dp" android:background="#334155" />
+
+            <!-- Step 3 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/step3_circle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@android:drawable/btn_default"
+                    android:backgroundTint="#334155"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="#94A3B8" />
+                <TextView
+                    android:id="@+id/step3_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trên đường"
+                    android:textColor="#94A3B8"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <View android:id="@+id/line3" android:layout_width="20dp" android:layout_height="1dp" android:background="#334155" />
+
+            <!-- Step 4 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/step4_circle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@android:drawable/btn_default"
+                    android:backgroundTint="#334155"
+                    android:gravity="center"
+                    android:text="4"
+                    android:textColor="#94A3B8" />
+                <TextView
+                    android:id="@+id/step4_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hiện trường"
+                    android:textColor="#94A3B8"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <View android:id="@+id/line4" android:layout_width="20dp" android:layout_height="1dp" android:background="#334155" />
+
+            <!-- Step 5 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/step5_circle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@android:drawable/btn_default"
+                    android:backgroundTint="#334155"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="#94A3B8" />
+                <TextView
+                    android:id="@+id/step5_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hoàn thành"
+                    android:textColor="#94A3B8"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="THÔNG TIN YÊU CẦU"
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            android:layout_marginBottom="16dp" />
+
         <TextView
             android:id="@+id/tvDetailType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:textColor="#FFFFFF"
             android:text="Rescue" />
 
         <TextView
@@ -31,60 +210,70 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Incident Type:"
+            android:text="Loại sự cố:"
+            android:textColor="#94A3B8"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/tvDetailIncidentType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:text="Flood" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Description:"
+            android:text="Mô tả:"
+            android:textColor="#94A3B8"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/tvDetailDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:text="Description detail here..." />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="People Count:"
+            android:text="Số người cần cứu:"
+            android:textColor="#94A3B8"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/tvDetailPeopleCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:text="3" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Priority:"
+            android:text="Mức độ khẩn cấp:"
+            android:textColor="#94A3B8"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/tvDetailPriority"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:text="High" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Created At:"
+            android:text="Thời gian gửi:"
+            android:textColor="#94A3B8"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/tvDetailCreatedAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:text="2026-03-20" />
 
         <LinearLayout

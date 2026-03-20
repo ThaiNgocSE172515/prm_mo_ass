@@ -90,8 +90,11 @@ public class MainActivity extends AppCompatActivity {
                     if (apiResponse.isSuccess()) {
                         String token = apiResponse.getData().getAccessToken();
                         String role = apiResponse.getData().getUser().getRole();
+                        String userId = apiResponse.getData().getUser().getId();
+                        
                         SharedPrefsManager.getInstance(MainActivity.this).saveAccessToken(token);
                         SharedPrefsManager.getInstance(MainActivity.this).saveUserRole(role);
+                        SharedPrefsManager.getInstance(MainActivity.this).saveUserId(userId);
                         
                         Toast.makeText(MainActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                         navigateToHome(role);

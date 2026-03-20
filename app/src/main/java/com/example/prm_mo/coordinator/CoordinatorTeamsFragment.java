@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm_mo.R;
 import com.example.prm_mo.adapters.TeamAdapter;
 import com.example.prm_mo.api.RetrofitClient;
+import com.example.prm_mo.models.ApiResponse;
 import com.example.prm_mo.models.TeamListResponse;
 import com.example.prm_mo.models.Team;
 import com.example.prm_mo.utils.SharedPrefsManager;
@@ -81,23 +82,25 @@ public class CoordinatorTeamsFragment extends Fragment {
         String token = SharedPrefsManager.getInstance(getContext()).getAccessToken();
         com.example.prm_mo.models.CreateTeamRequest req = new com.example.prm_mo.models.CreateTeamRequest(teamName);
         
-        RetrofitClient.getApiService().createTeam("Bearer " + token, req).enqueue(new Callback<Team>() {
+        RetrofitClient.getApiService().createTeam("Bearer " + token, req).enqueue(new Callback<ApiResponse<Team>>() {
             @Override
-            public void onResponse(Call<Team> call, Response<Team> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(Call<ApiResponse<Team>> call, Response<ApiResponse<Team>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     Toast.makeText(getContext(), "Tạo đội thành công!", Toast.LENGTH_SHORT).show();
                     loadTeams(); // Tải lại danh sách
                 } else {
                     String errorMsg = "Tạo đội thất bại";
                     try {
                         if (response.errorBody() != null) errorMsg = response.errorBody().string();
+                        else if (response.body() != null && response.body().getMessage() != null) 
+                            errorMsg = response.body().getMessage();
                     } catch (Exception e) {}
                     Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Team> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<Team>> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi mạng", Toast.LENGTH_SHORT).show();
             }
         });
@@ -105,9 +108,12 @@ public class CoordinatorTeamsFragment extends Fragment {
 
     private void loadTeams() {
         String token = SharedPrefsManager.getInstance(getContext()).getAccessToken();
-        if (token == null) return;
+        if (token == null) {
+            Log.e("CoordinatorTeams", "Token is null");
+            return;
+        }
 
-        RetrofitClient.getApiService().listTeams("Bearer " + token, null, 1, 50)
+        RetrofitClient.getApiService().listTeams("Bearer " + token, null, 1, 100)
             .enqueue(new Callback<TeamListResponse>() {
                 @Override
                 public void onResponse(Call<TeamListResponse> call, Response<TeamListResponse> response) {
@@ -116,14 +122,24 @@ public class CoordinatorTeamsFragment extends Fragment {
                             teamList.clear();
                             teamList.addAll(response.body().getData());
                             adapter.notifyDataSetChanged();
+                            Log.d("CoordinatorTeams", "Loaded " + teamList.size() + " teams");
+                        } else {
+                             Log.e("CoordinatorTeams", "API Success False: " + response.body().getMessage());
                         }
+                    } else {
+                        try {
+                            String error = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
+                            Log.e("CoordinatorTeams", "Response Error: " + error);
+                            if (getContext() != null) Toast.makeText(getContext(), "Lỗi: " + error, Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {}
                     }
                 }
 
                 @Override
                 public void onFailure(Call<TeamListResponse> call, Throwable t) {
+                    Log.e("CoordinatorTeams", "Network Failure", t);
                     if(getContext() != null) {
-                        Toast.makeText(getContext(), "Không tải được danh sách Đội Cứu Hộ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Lỗi kết nối máy chủ", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

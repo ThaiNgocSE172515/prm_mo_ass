@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 public class SharedPrefsManager {
     private static final String PREF_NAME = "prm_mo_prefs";
     private static final String KEY_ACCESS_TOKEN = "access_token";
+    private static final String KEY_USER_ID = "user_id";
+    private static final String KEY_USER_ROLE = "user_role";
     private static SharedPrefsManager instance;
     private SharedPreferences sharedPreferences;
 
@@ -28,12 +30,20 @@ public class SharedPrefsManager {
         return sharedPreferences.getString(KEY_ACCESS_TOKEN, null);
     }
 
+    public void saveUserId(String userId) {
+        sharedPreferences.edit().putString(KEY_USER_ID, userId).apply();
+    }
+
+    public String getUserId() {
+        return sharedPreferences.getString(KEY_USER_ID, null);
+    }
+
     public void saveUserRole(String role) {
-        sharedPreferences.edit().putString("user_role", role).apply();
+        sharedPreferences.edit().putString(KEY_USER_ROLE, role).apply();
     }
 
     public String getUserRole() {
-        return sharedPreferences.getString("user_role", "Citizen");
+        return sharedPreferences.getString(KEY_USER_ROLE, "Citizen");
     }
 
     public void clear() {

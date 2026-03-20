@@ -2,77 +2,338 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#101827">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Rescue Request"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:text="Gửi yêu cầu"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Chúng tôi sẽ hỗ trợ bạn sớm nhất có thể"
+            android:textColor="#9CA3AF"
+            android:textSize="14sp" />
+
+        <!-- Section 1: Loại yêu cầu -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Type (e.g., Rescue, Relief)"
-            android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Rescue"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardRescue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#1F2937"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="#F59E0B"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cứu hộ"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Dành cho tình huống khẩn cấp cần cứu nạn ngay"
+                        android:textColor="#9CA3AF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardRelief"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#1F2937"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cứu trợ"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Dành cho nhu cầu nhu yếu phẩm và hỗ trợ sinh hoạt"
+                        android:textColor="#9CA3AF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- Section 2: Chọn nhanh tình huống -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="2  Chọn nhanh tình huống cứu hộ"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Incident Type (e.g., Flood)"
-            android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etIncidentType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Flood"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="16dp"
+            android:scrollbars="none">
 
-        <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Ngập lụt -->
+                <include
+                    android:id="@+id/itemFlood"
+                    layout="@layout/item_incident_type" />
+
+                <!-- Bị kẹt -->
+                <include
+                    android:id="@+id/itemTrapped"
+                    layout="@layout/item_incident_type" />
+
+                <!-- Bị thương -->
+                <include
+                    android:id="@+id/itemInjured"
+                    layout="@layout/item_incident_type" />
+
+                <!-- Sạt lở -->
+                <include
+                    android:id="@+id/itemLandslide"
+                    layout="@layout/item_incident_type" />
+
+                <!-- Khác -->
+                <include
+                    android:id="@+id/itemOther"
+                    layout="@layout/item_incident_type" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Section 3: Thông tin chi tiết -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="3  Thông tin chi tiết"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description"
-            android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etDescription"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#1F2937"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:lines="3"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <com.google.android.material.textfield.TextInputLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mô tả tình huống *"
+                    android:textColor="#FFFFFF" />
+
+                <EditText
+                    android:id="@+id/etDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="Nhập chi tiết tình huống của bạn..."
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#4B5563"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvCharCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="0/500"
+                    android:textColor="#4B5563"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="#374151" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số người cần hỗ trợ *"
+                    android:textColor="#FFFFFF" />
+
+                <EditText
+                    android:id="@+id/etPeopleCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@null"
+                    android:hint="Ví dụ: 2"
+                    android:inputType="number"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#4B5563"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Section 4: Hình ảnh hiện trường -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCamera"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="People Count"
-            android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPeopleCount"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#1F2937"
+            app:cardCornerRadius="12dp"
+            app:strokeColor="#F59E0B"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:text="1"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@android:drawable/ic_menu_camera"
+                    app:tint="#9CA3AF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Nhấn để chụp ảnh"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Chụp ảnh hiện trường để đội cứu hộ dễ hình dung"
+                    android:textColor="#9CA3AF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Section 5: Vị trí hiện tại -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="4  Vị trí hiện tại"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#1F2937"
+            app:cardCornerRadius="12dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvLocationTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vị trí của bạn"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvLocationDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvLocationTitle"
+                    android:layout_marginTop="4dp"
+                    android:text="Đang lấy vị trí..."
+                    android:textColor="#9CA3AF"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/btnUpdateLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="Cập nhật"
+                    android:textColor="#F59E0B"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <Button
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit Request" />
+            android:layout_height="56dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="#F59E0B"
+            android:text="Gửi yêu cầu ngay"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp" />
 
     </LinearLayout>
 </ScrollView>
