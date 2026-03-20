@@ -33,6 +33,12 @@
         <activity
             android:name=".RequestDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".coordinator.CoordinatorHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TeamDetailActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -4,17 +4,14 @@ plugins {
 
 android {
     namespace = "com.example.prm_mo"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.prm_mo"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -45,4 +42,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     // Source: https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+    // OkHttp logging interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }

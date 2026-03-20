@@ -28,6 +28,14 @@ public class SharedPrefsManager {
         return sharedPreferences.getString(KEY_ACCESS_TOKEN, null);
     }
 
+    public void saveUserRole(String role) {
+        sharedPreferences.edit().putString("user_role", role).apply();
+    }
+
+    public String getUserRole() {
+        return sharedPreferences.getString("user_role", "Citizen");
+    }
+
     public void clear() {
         sharedPreferences.edit().clear().apply();
     }
