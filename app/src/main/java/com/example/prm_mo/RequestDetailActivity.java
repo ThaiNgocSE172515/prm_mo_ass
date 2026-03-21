@@ -22,6 +22,8 @@ import retrofit2.Response;
 public class RequestDetailActivity extends AppCompatActivity {
 
     private TextView tvType, tvStatus, tvIncidentType, tvDescription, tvPeopleCount, tvPriority, tvCreatedAt;
+    private TextView tvLocation;
+    private android.widget.ImageView ivDetailImage;
     private TextView step1Circle, step2Circle, step3Circle, step4Circle, step5Circle;
     private TextView step1Text, step2Text, step3Text, step4Text, step5Text;
     private View line1, line2, line3, line4;
@@ -48,6 +50,8 @@ public class RequestDetailActivity extends AppCompatActivity {
         tvPeopleCount = findViewById(R.id.tvDetailPeopleCount);
         tvPriority = findViewById(R.id.tvDetailPriority);
         tvCreatedAt = findViewById(R.id.tvDetailCreatedAt);
+        tvLocation = findViewById(R.id.tvDetailLocation);
+        ivDetailImage = findViewById(R.id.ivDetailImage);
 
         step1Circle = findViewById(R.id.step1_circle);
         step2Circle = findViewById(R.id.step2_circle);
@@ -98,6 +102,31 @@ public class RequestDetailActivity extends AppCompatActivity {
         tvPeopleCount.setText(String.valueOf(request.getPeopleCount()));
         tvPriority.setText(request.getPriority());
         tvCreatedAt.setText(request.getCreatedAt());
+
+        if (request.getLocation() != null && request.getLocation().getCoordinates() != null && request.getLocation().getCoordinates().size() >= 2) {
+            double lng = request.getLocation().getCoordinates().get(0);
+            double lat = request.getLocation().getCoordinates().get(1);
+            tvLocation.setText(String.format("%.6f, %.6f", lat, lng));
+        } else {
+            tvLocation.setText("Chưa xác định");
+        }
+
+        if (request.getImageUrls() != null && !request.getImageUrls().isEmpty() && ivDetailImage != null) {
+            String imageUrl = request.getImageUrls().get(0);
+            new Thread(() -> {
+                try {
+                    java.io.InputStream in = new java.net.URL(imageUrl).openStream();
+                    android.graphics.Bitmap bmp = android.graphics.BitmapFactory.decodeStream(in);
+                    runOnUiThread(() -> {
+                        if (bmp != null) {
+                            ivDetailImage.setImageBitmap(bmp);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
 
         updateStepper(request.getStatus());
 

@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_dashboard"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_home"
         android:title="Dashboard" />
     <item
         android:id="@+id/nav_requests"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_assignment"
         android:title="Yêu cầu" />
     <item
         android:id="@+id/nav_missions"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_mission"
         android:title="Nhiệm vụ" />
     <item
         android:id="@+id/nav_teams"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_group"
         android:title="Q.Lý Team" />
     <item
         android:id="@+id/nav_profile"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_person"
         android:title="Cá nhân" />
 </menu>

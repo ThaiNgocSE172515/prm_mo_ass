@@ -276,6 +276,36 @@
             android:textColor="#FFFFFF"
             android:text="2026-03-20" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Vị trí (Location):"
+            android:textColor="#94A3B8"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvDetailLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="10.7626, 106.6601" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Hình ảnh hiện trường:"
+            android:textColor="#94A3B8"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/ivDetailImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="#1E293B"
+            android:contentDescription="Hình ảnh hiện trường" />
+
         <LinearLayout
             android:id="@+id/llCoordinatorActions"
             android:layout_width="match_parent"

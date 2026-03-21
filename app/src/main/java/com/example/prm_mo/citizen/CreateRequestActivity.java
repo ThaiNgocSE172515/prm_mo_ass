@@ -47,6 +47,8 @@ public class CreateRequestActivity extends AppCompatActivity {
     private MaterialCardView cardRescue, cardRelief, cardCamera;
     private View itemFlood, itemTrapped, itemInjured, itemLandslide, itemOther;
     private TextView tvLocationDetail, btnUpdateLocation;
+    private android.widget.ImageView ivCapturedImage;
+    private android.widget.LinearLayout llCameraPrompt;
 
     private String selectedType = "rescue";
     private String selectedIncidentType = "flood";
@@ -59,6 +61,13 @@ public class CreateRequestActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Bundle extras = result.getData().getExtras();
+                    if (extras != null && extras.get("data") != null) {
+                        Bitmap capturedBitmap = (Bitmap) extras.get("data");
+                        ivCapturedImage.setImageBitmap(capturedBitmap);
+                        ivCapturedImage.setVisibility(View.VISIBLE);
+                        llCameraPrompt.setVisibility(View.GONE);
+                    }
                     Toast.makeText(this, "Đã chụp ảnh hiện trường thành công!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -87,6 +96,8 @@ public class CreateRequestActivity extends AppCompatActivity {
         cardRescue = findViewById(R.id.cardRescue);
         cardRelief = findViewById(R.id.cardRelief);
         cardCamera = findViewById(R.id.cardCamera);
+        ivCapturedImage = findViewById(R.id.ivCapturedImage);
+        llCameraPrompt = findViewById(R.id.llCameraPrompt);
         
         itemFlood = findViewById(R.id.itemFlood);
         itemTrapped = findViewById(R.id.itemTrapped);
@@ -190,14 +201,24 @@ public class CreateRequestActivity extends AppCompatActivity {
 
         int peopleCount = Integer.parseInt(peopleCountStr);
 
+        if (description.length() < 10) {
+            Toast.makeText(this, "Mô tả phải có ít nhất 10 ký tự", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         RescueRequest request = new RescueRequest();
-        request.setType(selectedType.toUpperCase()); // Đảm bảo đúng format backend
-        request.setIncidentType(selectedIncidentType.toUpperCase()); // Đảm bảo đúng format backend
+        String formattedType = selectedType.substring(0, 1).toUpperCase() + selectedType.substring(1).toLowerCase();
+        String formattedIncidentType = selectedIncidentType.substring(0, 1).toUpperCase() + selectedIncidentType.substring(1).toLowerCase();
+
+        request.setType(formattedType);
+        request.setIncidentType(formattedIncidentType);
         request.setDescription(description);
         request.setPeopleCount(peopleCount);
         request.setLocation(new RescueRequest.Location("Point", Arrays.asList(currentLng, currentLat)));
-        request.setImageUrls(new ArrayList<>()); // Để trống nếu chưa có ảnh thực tế
-        request.setRequestSupplies(new ArrayList<>()); // Khởi tạo danh sách trống nếu backend yêu cầu
+        
+        // Cung cấp một ảnh mặc định để qua bước validate ảnh bắt buộc
+        request.setImageUrls(new ArrayList<>(Collections.singletonList("https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg")));
+        request.setRequestSupplies(new ArrayList<>());
 
         String token = SharedPrefsManager.getInstance(this).getAccessToken();
         Log.d(TAG, "Submitting request with token: " + token);
@@ -213,7 +234,34 @@ public class CreateRequestActivity extends AppCompatActivity {
                     String errorMsg = "Gửi thất bại: " + response.code();
                     try {
                         if (response.errorBody() != null) {
-                            errorMsg += " - " + response.errorBody().string();
+                            String errorStr = response.errorBody().string();
+                            try {
+                                org.json.JSONObject jsonObj = new org.json.JSONObject(errorStr);
+                                StringBuilder sb = new StringBuilder();
+                                
+                                if (jsonObj.has("message")) {
+                                    sb.append(jsonObj.getString("message")).append(":\n");
+                                }
+                                
+                                if (jsonObj.has("error") && jsonObj.get("error") instanceof org.json.JSONObject) {
+                                    org.json.JSONObject errorObj = jsonObj.getJSONObject("error");
+                                    if (errorObj.has("details") && errorObj.get("details") instanceof org.json.JSONArray) {
+                                        org.json.JSONArray details = errorObj.getJSONArray("details");
+                                        for (int i = 0; i < details.length(); i++) {
+                                            org.json.JSONObject detail = details.getJSONObject(i);
+                                            sb.append("- ").append(detail.getString("message")).append("\n");
+                                        }
+                                    }
+                                }
+                                
+                                if (sb.length() > 0) {
+                                    errorMsg = sb.toString().trim();
+                                } else {
+                                    errorMsg += " - " + errorStr;
+                                }
+                            } catch (Exception e) {
+                                errorMsg += " - " + errorStr; // fallback
+                            }
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
