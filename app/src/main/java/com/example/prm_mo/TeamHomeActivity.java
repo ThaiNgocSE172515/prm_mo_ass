@@ -29,6 +29,7 @@ public class TeamHomeActivity extends AppCompatActivity {
     private TimelineAdapter adapter;
     private List<Timeline> timelineList;
     private ImageView btnLogout;
+    private ImageView btnNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class TeamHomeActivity extends AppCompatActivity {
         timelineList = new ArrayList<>();
         adapter = new TimelineAdapter(timelineList);
         rvTimelines.setAdapter(adapter);
+
+        btnNotification = findViewById(R.id.btnNotification);
+        btnNotification.setOnClickListener(v -> startActivity(new Intent(this, NotificationActivity.class)));
 
         btnLogout.setOnClickListener(v -> logout());
 

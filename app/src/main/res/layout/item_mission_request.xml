@@ -3,29 +3,100 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="8dp">
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="20dp"
+        android:background="?attr/selectableItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_circle_icon"
+                android:backgroundTint="#FFF3E0">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_location"
+                    app:tint="#FF9800" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvCitizenName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hộ gia đình: Nguyễn Văn A"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="#263238"/>
+
+                <TextView
+                    android:id="@+id/tvCitizenPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SĐT: 0987654321"
+                    android:layout_marginTop="4dp"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#1976D2"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ECEFF1"
+            android:layout_marginVertical="16dp"/>
 
         <TextView
-            android:id="@+id/tvCitizenName"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hộ gia đình: Nguyễn Văn A"
+            android:text="Mô tả: Nước ngập ngang lưng..."
+            android:textSize="15sp"
+            android:lineSpacingExtra="6dp"
+            android:textColor="#455A64"/>
+            
+        <TextView
+            android:id="@+id/tvPeopleCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Số người: 3 (Đã cứu: 0)"
+            android:layout_marginTop="16dp"
+            android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="#333333"/>
+            android:background="#FCE4EC"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:textColor="#E91E63"/>
 
         <TextView
             android:id="@+id/tvRequestStatus"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cần: Lương thực, Nước uống"
+            android:text="Vị trí: ..."
             android:textSize="13sp"
-            android:layout_marginTop="4dp"/>
+            android:textColor="#78909C"
+            android:layout_marginTop="16dp"/>
+            
     </LinearLayout>
 </androidx.cardview.widget.CardView>

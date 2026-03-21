@@ -15,13 +15,14 @@ import com.example.prm_mo.models.*;
 import com.example.prm_mo.utils.SharedPrefsManager;
 import java.util.ArrayList;
 import java.util.List;
+import android.content.Intent;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TimelineDetailActivity extends AppCompatActivity {
     private String timelineId, missionId, currentStatus;
-    private Button btnAction;
+    private Button btnAction, btnFail, btnWithdraw;
     private ImageView btnBack;
     private TextView tvStatusDetail;
     private MissionRequestAdapter adapter;
@@ -38,6 +39,8 @@ public class TimelineDetailActivity extends AppCompatActivity {
         if (currentStatus == null) currentStatus = "ASSIGNED";
 
         btnAction = findViewById(R.id.btnAction);
+        btnFail = findViewById(R.id.btnFail);
+        btnWithdraw = findViewById(R.id.btnWithdraw);
         btnBack = findViewById(R.id.btnBack);
         tvStatusDetail = findViewById(R.id.tvStatusDetail);
 
@@ -53,6 +56,15 @@ public class TimelineDetailActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
 
         btnAction.setOnClickListener(v -> handleAction());
+        btnFail.setOnClickListener(v -> showReasonDialog("FAIL"));
+        btnWithdraw.setOnClickListener(v -> showReasonDialog("WITHDRAW"));
+
+        Button btnViewHistory = findViewById(R.id.btnViewHistory);
+        btnViewHistory.setOnClickListener(v -> {
+            Intent intent = new Intent(TimelineDetailActivity.this, TeamRequestHistoryActivity.class);
+            intent.putExtra("MISSION_ID", missionId);
+            startActivity(intent);
+        });
 
         updateUIBasedOnStatus();
         fetchMissionRequests();
@@ -64,13 +76,24 @@ public class TimelineDetailActivity extends AppCompatActivity {
         }
 
         if ("ASSIGNED".equals(currentStatus)) {
+            btnAction.setVisibility(View.VISIBLE);
             btnAction.setText("CHẤP NHẬN & DI CHUYỂN");
+            btnFail.setVisibility(View.GONE);
+            btnWithdraw.setVisibility(View.VISIBLE);
         } else if ("EN_ROUTE".equals(currentStatus)) {
+            btnAction.setVisibility(View.VISIBLE);
             btnAction.setText("ĐÃ ĐẾN HIỆN TRƯỜNG");
+            btnFail.setVisibility(View.VISIBLE);
+            btnWithdraw.setVisibility(View.VISIBLE);
         } else if ("ON_SITE".equals(currentStatus)) {
+            btnAction.setVisibility(View.VISIBLE);
             btnAction.setText("HOÀN THÀNH NHIỆM VỤ");
+            btnFail.setVisibility(View.VISIBLE);
+            btnWithdraw.setVisibility(View.VISIBLE);
         } else {
             btnAction.setVisibility(View.GONE);
+            btnFail.setVisibility(View.GONE);
+            btnWithdraw.setVisibility(View.GONE);
         }
     }
 
@@ -103,12 +126,23 @@ public class TimelineDetailActivity extends AppCompatActivity {
                 @Override public void onFailure(Call<ApiResponse<Timeline>> call, Throwable t) {}
             });
         } else if ("ON_SITE".equals(currentStatus)) {
-            TimelineCompleteRequest body = new TimelineCompleteRequest("COMPLETED");
+            int totalNeeded = 0;
+            int totalRescued = 0;
+            for (MissionRequest req : requestList) {
+                totalNeeded += Math.max(req.getPeopleNeeded(), req.getRequest() != null ? req.getRequest().getPeopleCount() : 0);
+                totalRescued += req.getPeopleRescued();
+            }
+
+            // Nếu chưa cứu đủ người, outcome = PARTIAL. Ngược lại = COMPLETED.
+            String outcome = (totalNeeded > 0 && totalRescued < totalNeeded) ? "PARTIAL" : "COMPLETED";
+
+            TimelineCompleteRequest body = new TimelineCompleteRequest(outcome);
             api.completeTimeline(token, timelineId, body).enqueue(new Callback<ApiResponse<Timeline>>() {
                 @Override
                 public void onResponse(Call<ApiResponse<Timeline>> call, Response<ApiResponse<Timeline>> response) {
                     if (response.isSuccessful()) {
-                        Toast.makeText(TimelineDetailActivity.this, "Nhiệm vụ hoàn tất!", Toast.LENGTH_SHORT).show();
+                        String msg = "COMPLETED".equals(outcome) ? "Nhiệm vụ hoàn tất!" : "Nhiệm vụ kết thúc (chưa hoàn thành hết)!";
+                        Toast.makeText(TimelineDetailActivity.this, msg, Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         Toast.makeText(TimelineDetailActivity.this, "Lỗi server: " + response.code(), Toast.LENGTH_SHORT).show();
@@ -134,6 +168,53 @@ public class TimelineDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void showReasonDialog(String actionType) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(actionType.equals("FAIL") ? "Lý do thất bại" : "Lý do rút lui");
+
+        final EditText input = new EditText(this);
+        input.setHint("Nhập lý do...");
+        builder.setView(input);
+
+        builder.setPositiveButton("Xác nhận", (dialog, which) -> {
+            String reason = input.getText().toString().trim();
+            if(reason.isEmpty()) {
+                Toast.makeText(TimelineDetailActivity.this, "Vui lòng nhập lý do", Toast.LENGTH_SHORT).show();
+            } else {
+                sendExceptionAction(actionType, reason);
+            }
+        });
+        builder.setNegativeButton("Hủy", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
+    private void sendExceptionAction(String actionType, String reason) {
+        String token = "Bearer " + SharedPrefsManager.getInstance(this).getAccessToken();
+        ApiService api = RetrofitClient.getApiService();
+        ApiService.ReasonBody body = new ApiService.ReasonBody(reason);
+
+        Callback<ApiResponse<Timeline>> callback = new Callback<ApiResponse<Timeline>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<Timeline>> call, Response<ApiResponse<Timeline>> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(TimelineDetailActivity.this, actionType.equals("FAIL") ? "Đã báo cáo thất bại" : "Đã rút lui khỏi nhiệm vụ", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(TimelineDetailActivity.this, "Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override public void onFailure(Call<ApiResponse<Timeline>> call, Throwable t) {
+                Toast.makeText(TimelineDetailActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        if(actionType.equals("FAIL")) {
+            api.failTimeline(token, timelineId, body).enqueue(callback);
+        } else {
+            api.withdrawTimeline(token, timelineId, body).enqueue(callback);
+        }
+    }
+
     // ==========================================
     // HÀM HIỆN DIALOG BÁO CÁO TIẾN ĐỘ ĐÃ CẬP NHẬT
     // ==========================================
@@ -145,18 +226,21 @@ public class TimelineDetailActivity extends AppCompatActivity {
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_report_progress, null);
         EditText etPeople = view.findViewById(R.id.etPeopleRescued);
-        EditText etSupplies = view.findViewById(R.id.etSuppliesDelivered); // Lấy ID mới
+        EditText etSupplyName = view.findViewById(R.id.etSupplyName);
+        EditText etSupplyQty = view.findViewById(R.id.etSupplyQuantity);
 
         new AlertDialog.Builder(this)
                 .setTitle("Báo cáo: " + item.getRequest().getUserName())
                 .setView(view)
                 .setPositiveButton("GỬI BÁO CÁO", (dialog, which) -> {
                     String val = etPeople.getText().toString().trim();
-                    String suppliesNote = etSupplies.getText().toString().trim(); // Bắt chữ nhập vào
+                    String sName = etSupplyName.getText().toString().trim();
+                    String sQty = etSupplyQty.getText().toString().trim();
 
                     if (!val.isEmpty()) {
                         int peopleCount = Integer.parseInt(val);
-                        sendProgressReport(item.getId(), peopleCount, suppliesNote);
+                        int supplyQty = sQty.isEmpty() ? 0 : Integer.parseInt(sQty);
+                        sendProgressReport(item.getId(), peopleCount, sName, supplyQty);
                     } else {
                         Toast.makeText(this, "Vui lòng nhập số lượng người", Toast.LENGTH_SHORT).show();
                     }
@@ -165,11 +249,16 @@ public class TimelineDetailActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void sendProgressReport(String missionRequestId, int count, String suppliesNote) {
+    private void sendProgressReport(String missionRequestId, int count, String supplyName, int supplyQty) {
         String token = "Bearer " + SharedPrefsManager.getInstance(this).getAccessToken();
 
-        // Hiện tại truyền mảng rỗng để API không bị crash do sai định dạng SupplyId
-        ApiService.ProgressRequestBody body = new ApiService.ProgressRequestBody(count, new ArrayList<>());
+        List<ApiService.SupplyItem> supplies = null;
+        if(!supplyName.isEmpty() && supplyQty > 0) {
+            supplies = new ArrayList<>();
+            supplies.add(new ApiService.SupplyItem(supplyName, supplyQty));
+        }
+
+        ApiService.ProgressRequestBody body = new ApiService.ProgressRequestBody(count, supplies);
 
         RetrofitClient.getApiService().updateMissionProgress(token, missionRequestId, body).enqueue(new Callback<ApiResponse<Void>>() {
             @Override
@@ -178,7 +267,8 @@ public class TimelineDetailActivity extends AppCompatActivity {
                     Toast.makeText(TimelineDetailActivity.this, "Đã cập nhật tiến độ!", Toast.LENGTH_SHORT).show();
                     fetchMissionRequests(); // Load lại DS
                 } else {
-                    Toast.makeText(TimelineDetailActivity.this, "Cập nhật tiến độ thất bại", Toast.LENGTH_SHORT).show();
+                    // Nếu lỗi, in thẳng cái mã lỗi ra màn hình để anh em mình biết đường mò
+                    Toast.makeText(TimelineDetailActivity.this, "Cập nhật tiến độ thất bại: " + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
             @Override

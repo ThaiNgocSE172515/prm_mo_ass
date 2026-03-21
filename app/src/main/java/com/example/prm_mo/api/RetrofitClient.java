@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.concurrent.TimeUnit;
 
 public class RetrofitClient {
     private static final String BASE_URL = "https://flood-rescue.onrender.com/";
@@ -16,6 +17,9 @@ public class RetrofitClient {
         if (retrofit == null) {
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .connectTimeout(90, TimeUnit.SECONDS)
+                    .readTimeout(90, TimeUnit.SECONDS)
+                    .writeTimeout(90, TimeUnit.SECONDS)
                     .build();
 
             retrofit = new Retrofit.Builder()

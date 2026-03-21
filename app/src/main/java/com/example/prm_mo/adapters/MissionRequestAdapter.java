@@ -37,7 +37,6 @@ public class MissionRequestAdapter extends RecyclerView.Adapter<MissionRequestAd
         if (item != null && item.getRequest() != null) {
             holder.name.setText("Hộ dân: " + item.getRequest().getUserName());
 
-            // Lấy địa chỉ thông minh: Address -> Description -> Mặc định
             String location = item.getRequest().getAddress();
             if (location == null || location.isEmpty()) {
                 location = item.getRequest().getDescription();
@@ -45,6 +44,11 @@ public class MissionRequestAdapter extends RecyclerView.Adapter<MissionRequestAd
             if (location == null || location.isEmpty()) {
                 location = "Khu vực đang cứu hộ";
             }
+
+            holder.phone.setText("SĐT: " + item.getRequest().getPhoneNumber());
+            holder.description.setText("Chi tiết: " + item.getRequest().getDescription());
+            int needed = Math.max(item.getPeopleNeeded(), item.getRequest().getPeopleCount());
+            holder.people.setText("Số người cần cứu: " + needed + " (Đã cứu: " + item.getPeopleRescued() + ")");
 
             holder.status.setText("Vị trí: " + location + "\nTrạng thái: " + item.getStatus());
 
@@ -57,11 +61,14 @@ public class MissionRequestAdapter extends RecyclerView.Adapter<MissionRequestAd
     @Override public int getItemCount() { return list == null ? 0 : list.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name, status;
+        TextView name, status, phone, description, people;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.tvCitizenName);
             status = itemView.findViewById(R.id.tvRequestStatus);
+            phone = itemView.findViewById(R.id.tvCitizenPhone);
+            description = itemView.findViewById(R.id.tvDescription);
+            people = itemView.findViewById(R.id.tvPeopleCount);
         }
     }
 }

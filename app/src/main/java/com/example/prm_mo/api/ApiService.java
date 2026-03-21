@@ -136,6 +136,23 @@ public interface ApiService {
             @Body ProgressRequestBody body
     );
 
+    @GET("api/team-requests")
+    Call<ApiResponse<List<com.example.prm_mo.models.TeamRequest>>> getTeamRequests(
+            @Header("Authorization") String token,
+            @Query("missionId") String missionId
+    );
+
+    @GET("api/notifications/me")
+    Call<ApiResponse<List<com.example.prm_mo.models.Notification>>> getMyNotifications(
+            @Header("Authorization") String token
+    );
+
+    @PATCH("api/notifications/read/{notificationId}")
+    Call<ApiResponse<Void>> markNotificationRead(
+            @Header("Authorization") String token,
+            @Path("notificationId") String notificationId
+    );
+
     // ==========================================
     // 5. STATIC CLASSES FOR BODY
     // ==========================================
@@ -149,9 +166,9 @@ public interface ApiService {
     }
 
     public static class SupplyItem {
-        public String supplyId;
-        public int quantity;
-        public SupplyItem(String id, int qty) { this.supplyId = id; this.quantity = qty; }
+        public String name;
+        public int deliveredQty;
+        public SupplyItem(String n, int qty) { this.name = n; this.deliveredQty = qty; }
     }
 
     public static class ReasonBody {

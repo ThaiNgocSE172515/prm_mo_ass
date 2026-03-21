@@ -39,6 +39,40 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tvCitizenName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Người gửi: ..."
+            android:textStyle="bold"
+            android:textColor="#333333" />
+            
+        <TextView
+            android:id="@+id/tvCitizenPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="SĐT: ..."
+            android:textColor="#333333" />
+            
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Địa chỉ: ..."
+            android:textColor="#555555" />
+            
+        <TextView
+            android:id="@+id/tvPeopleCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Số người: ..."
+            android:textStyle="bold"
+            android:textColor="#D32F2F" />
+
+        <TextView
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

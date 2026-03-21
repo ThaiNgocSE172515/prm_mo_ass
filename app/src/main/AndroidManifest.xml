@@ -47,6 +47,12 @@
         <activity
             android:name=".TeamDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".TeamRequestHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

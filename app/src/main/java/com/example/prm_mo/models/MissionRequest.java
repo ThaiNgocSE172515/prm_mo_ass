@@ -9,7 +9,12 @@ public class MissionRequest {
 
     private String status;
 
+    private int peopleNeeded;
+    private int peopleRescued;
+
     public String getId() { return _id; }
     public RescueRequest getRequest() { return request; }
     public String getStatus() { return status; }
+    public int getPeopleNeeded() { return peopleNeeded; }
+    public int getPeopleRescued() { return peopleRescued; }
 }

@@ -4,39 +4,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F5F5">
+    android:background="#F0F4F8">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:background="#1976D2"
+        android:paddingTop="32dp"
+        android:paddingBottom="24dp"
+        android:paddingHorizontal="24dp"
+        android:elevation="8dp">
 
         <TextView
+            android:id="@+id/tvHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nhiệm vụ của tôi"
-            android:textSize="24sp"
+            android:text="Nhiệm Vụ\nCứu Hộ"
+            android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="#333333"
+            android:textColor="#FFFFFF"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:lineSpacingExtra="4dp"/>
+
+        <ImageView
+            android:id="@+id/btnNotification"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toStartOf="@id/btnLogout"
+            android:layout_marginEnd="16dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_popup_reminder"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#FFFFFF" />
 
         <ImageView
             android:id="@+id/btnLogout"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:padding="6dp"
+            android:padding="8dp"
             android:src="@drawable/ic_logout"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="#FF5252" />
+            app:tint="#FFFFFF" />
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="8dp"
+        android:text="Danh sách phân công"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#546E7A"
+        android:textAllCaps="true"
+        android:letterSpacing="0.05"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTimelines"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"/>
 
 </LinearLayout>

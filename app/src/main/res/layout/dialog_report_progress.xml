@@ -3,31 +3,73 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="24dp"
+    android:background="#FFFFFF">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Số người đã cứu:"
+        android:textSize="15sp"
+        android:textColor="#263238"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etPeopleRescued"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
         android:inputType="number"
-        android:hint="Nhập số người..." />
+        android:paddingHorizontal="16dp"
+        android:background="#F5F7FA"
+        android:textColor="#333333"
+        android:hint="Nhập số lượng..."
+        android:textColorHint="#90A4AE"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ECEFF1"
+        android:layout_marginVertical="20dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Nhu yếu phẩm đã giao (nếu có):"
+        android:text="Tên nhu yếu phẩm đính kèm (nếu có):"
+        android:textSize="15sp"
+        android:textColor="#263238"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/etSuppliesDelivered"
+        android:id="@+id/etSupplyName"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="16dp"
+        android:background="#F5F7FA"
+        android:textColor="#333333"
+        android:hint="Ví dụ: Nước suối, Thùng mì tôm..."
+        android:textColorHint="#90A4AE"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ví dụ: 2 thùng mì, 1 lốc nước..." />
+        android:layout_marginTop="20dp"
+        android:textSize="15sp"
+        android:textColor="#263238"
+        android:text="Số lượng phần/thùng:"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etSupplyQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:inputType="number"
+        android:paddingHorizontal="16dp"
+        android:background="#F5F7FA"
+        android:textColor="#333333"
+        android:hint="Ví dụ: 10"
+        android:textColorHint="#90A4AE"/>
+        
 </LinearLayout>
