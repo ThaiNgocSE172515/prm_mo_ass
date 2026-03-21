@@ -1,7 +1,6 @@
 package com.example.prm_mo.coordinator;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm_mo.R;
 import com.example.prm_mo.adapters.TeamAdapter;
 import com.example.prm_mo.api.RetrofitClient;
-import com.example.prm_mo.models.TeamListResponse;
-import com.example.prm_mo.models.Team;
+import com.example.prm_mo.models.*;
 import com.example.prm_mo.utils.SharedPrefsManager;
 
 import java.util.ArrayList;
@@ -36,10 +34,10 @@ public class CoordinatorTeamsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_coordinator_teams, container, false);
-        
+
         rvCoordinatorTeams = view.findViewById(R.id.rvCoordinatorTeams);
         rvCoordinatorTeams.setLayoutManager(new LinearLayoutManager(getContext()));
-        
+
         teamList = new ArrayList<>();
         adapter = new TeamAdapter(teamList);
         rvCoordinatorTeams.setAdapter(adapter);
@@ -79,25 +77,21 @@ public class CoordinatorTeamsFragment extends Fragment {
 
     private void createTeam(String teamName) {
         String token = SharedPrefsManager.getInstance(getContext()).getAccessToken();
-        com.example.prm_mo.models.CreateTeamRequest req = new com.example.prm_mo.models.CreateTeamRequest(teamName);
-        
-        RetrofitClient.getApiService().createTeam("Bearer " + token, req).enqueue(new Callback<Team>() {
+        CreateTeamRequest req = new CreateTeamRequest(teamName);
+
+        RetrofitClient.getApiService().createTeam("Bearer " + token, req).enqueue(new Callback<ApiResponse<Team>>() {
             @Override
-            public void onResponse(Call<Team> call, Response<Team> response) {
+            public void onResponse(Call<ApiResponse<Team>> call, Response<ApiResponse<Team>> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Tạo đội thành công!", Toast.LENGTH_SHORT).show();
-                    loadTeams(); // Tải lại danh sách
+                    loadTeams();
                 } else {
-                    String errorMsg = "Tạo đội thất bại";
-                    try {
-                        if (response.errorBody() != null) errorMsg = response.errorBody().string();
-                    } catch (Exception e) {}
-                    Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Tạo đội thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Team> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<Team>> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi mạng", Toast.LENGTH_SHORT).show();
             }
         });
@@ -107,25 +101,26 @@ public class CoordinatorTeamsFragment extends Fragment {
         String token = SharedPrefsManager.getInstance(getContext()).getAccessToken();
         if (token == null) return;
 
-        RetrofitClient.getApiService().listTeams("Bearer " + token, null, 1, 50)
-            .enqueue(new Callback<TeamListResponse>() {
-                @Override
-                public void onResponse(Call<TeamListResponse> call, Response<TeamListResponse> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        if (response.body().isSuccess() && response.body().getData() != null) {
-                            teamList.clear();
-                            teamList.addAll(response.body().getData());
-                            adapter.notifyDataSetChanged();
+        // Ép kiểu Integer cho chắc cú không bị lỗi
+        RetrofitClient.getApiService().listTeams("Bearer " + token, null, Integer.valueOf(1), Integer.valueOf(50))
+                .enqueue(new Callback<TeamListResponse>() {
+                    @Override
+                    public void onResponse(Call<TeamListResponse> call, Response<TeamListResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (response.body().getData() != null) {
+                                teamList.clear();
+                                teamList.addAll(response.body().getData());
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<TeamListResponse> call, Throwable t) {
-                    if(getContext() != null) {
-                        Toast.makeText(getContext(), "Không tải được danh sách Đội Cứu Hộ", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFailure(Call<TeamListResponse> call, Throwable t) {
+                        if(getContext() != null) {
+                            Toast.makeText(getContext(), "Không tải được danh sách Đội Cứu Hộ", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
+                });
     }
 }

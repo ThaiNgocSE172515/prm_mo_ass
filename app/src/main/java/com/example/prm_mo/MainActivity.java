@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                         String role = apiResponse.getData().getUser().getRole();
                         SharedPrefsManager.getInstance(MainActivity.this).saveAccessToken(token);
                         SharedPrefsManager.getInstance(MainActivity.this).saveUserRole(role);
-                        
+
                         Toast.makeText(MainActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                         navigateToHome(role);
                     } else {
@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         if ("Rescue Coordinator".equals(role)) {
             intent = new Intent(MainActivity.this, com.example.prm_mo.coordinator.CoordinatorHomeActivity.class);
+        } else if ("Rescue Team".equals(role)) { // Đã bổ sung chuyển hướng cho Rescue Team
+            intent = new Intent(MainActivity.this, TeamHomeActivity.class);
         } else {
             intent = new Intent(MainActivity.this, CitizenHomeActivity.class);
         }

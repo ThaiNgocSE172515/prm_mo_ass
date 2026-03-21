@@ -1,15 +1,7 @@
 package com.example.prm_mo.api;
 
 import android.content.Context;
-
-import com.example.prm_mo.utils.SharedPrefsManager;
-
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -19,6 +11,7 @@ public class RetrofitClient {
     private static Retrofit retrofit = null;
     private static ApiService apiService = null;
 
+    // Cách 1: Cho các file KHÔNG dùng Context (như TimelineDetailActivity)
     public static ApiService getApiService() {
         if (retrofit == null) {
             OkHttpClient client = new OkHttpClient.Builder()
@@ -33,6 +26,11 @@ public class RetrofitClient {
             apiService = retrofit.create(ApiService.class);
         }
         return apiService;
+    }
+
+    // Cách 2: Cho các file CÓ dùng Context (như CreateRequestActivity)
+    public static ApiService getApiService(Context context) {
+        return getApiService(); // Tái sử dụng hàm trên cho gọn
     }
 
     public static void reset() {

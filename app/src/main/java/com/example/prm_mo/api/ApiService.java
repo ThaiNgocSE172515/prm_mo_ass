@@ -1,37 +1,28 @@
-package com.example.prm_mo.api;
+package com.example.prm_mo.api; // QUAN TRỌNG: Đuôi phải có .api
 
-import com.example.prm_mo.models.ApiResponse;
-import com.example.prm_mo.models.LoginRequest;
-import com.example.prm_mo.models.LoginResponseData;
-import com.example.prm_mo.models.RegisterRequest;
-import com.example.prm_mo.models.RegisterResponse;
-import com.example.prm_mo.models.RescueRequest;
-import com.example.prm_mo.models.User;
-
+import com.example.prm_mo.models.*;
 import java.util.List;
-
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.POST;
-import retrofit2.http.PATCH;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 
 public interface ApiService {
+
+    // ==========================================
+    // 1. AUTHENTICATION
+    // ==========================================
     @POST("api/auth/login")
     Call<ApiResponse<LoginResponseData>> login(@Body LoginRequest loginRequest);
 
     @POST("api/auth/register")
     Call<ApiResponse<RegisterResponse>> register(@Body RegisterRequest registerRequest);
 
-    @POST("api/auth/refresh")
-    Call<ApiResponse<LoginResponseData>> refreshToken();
-
     @GET("api/auth/me")
     Call<ApiResponse<User>> getCurrentUser(@Header("Authorization") String token);
 
+
+    // ==========================================
+    // 2. REQUEST MANAGEMENT
+    // ==========================================
     @POST("api/requests")
     Call<ApiResponse<RescueRequest>> addRequest(@Header("Authorization") String token, @Body RescueRequest request);
 
@@ -50,17 +41,12 @@ public interface ApiService {
             @Path("requestId") String requestId
     );
 
-    // ==========================================
-    // COORDINATOR APIs
-    // ==========================================
 
-    @GET("api/reports/summary")
-    Call<com.example.prm_mo.models.SummaryReport> getSummaryReport(
-            @Header("Authorization") String token
-    );
-
+    // ==========================================
+    // 3. COORDINATOR DASHBOARD & TEAMS
+    // ==========================================
     @GET("api/requests")
-    Call<com.example.prm_mo.models.RequestListResponse> listAllRequests(
+    Call<RequestListResponse> listAllRequests(
             @Header("Authorization") String token,
             @Query("status") String status,
             @Query("priority") String priority,
@@ -68,8 +54,15 @@ public interface ApiService {
             @Query("limit") Integer limit
     );
 
+    @PATCH("api/requests/{requestId}/verify")
+    Call<ApiResponse<RescueRequest>> verifyRequest(
+            @Header("Authorization") String token,
+            @Path("requestId") String requestId,
+            @Body VerifyRequestInput input
+    );
+
     @GET("api/missions")
-    Call<com.example.prm_mo.models.MissionListResponse> listMissions(
+    Call<MissionListResponse> listMissions(
             @Header("Authorization") String token,
             @Query("status") String status,
             @Query("page") Integer page,
@@ -77,7 +70,7 @@ public interface ApiService {
     );
 
     @GET("api/teams")
-    Call<com.example.prm_mo.models.TeamListResponse> listTeams(
+    Call<TeamListResponse> listTeams(
             @Header("Authorization") String token,
             @Query("status") String status,
             @Query("page") Integer page,
@@ -85,34 +78,84 @@ public interface ApiService {
     );
 
     @POST("api/teams")
-    Call<com.example.prm_mo.models.Team> createTeam(
-            @Header("Authorization") String token,
-            @Body com.example.prm_mo.models.CreateTeamRequest body
-    );
+    Call<ApiResponse<Team>> createTeam(@Header("Authorization") String token, @Body CreateTeamRequest body);
 
     @GET("api/teams/{teamId}")
-    Call<com.example.prm_mo.models.Team> getTeamDetail(
-            @Header("Authorization") String token,
-            @Path("teamId") String teamId
-    );
+    Call<Team> getTeamDetail(@Header("Authorization") String token, @Path("teamId") String teamId);
 
     @PATCH("api/teams/{teamId}")
-    Call<com.example.prm_mo.models.Team> updateTeam(
+    Call<Team> updateTeam(@Header("Authorization") String token, @Path("teamId") String teamId, @Body UpdateTeamRequest body);
+
+    @DELETE("api/teams/{teamId}")
+    Call<Void> deleteTeam(@Header("Authorization") String token, @Path("teamId") String teamId);
+
+
+    // ==========================================
+    // 4. RESCUE TEAM ACTIONS (TIMELINES)
+    // ==========================================
+    @GET("api/timelines")
+    Call<ApiResponse<List<Timeline>>> getMyTimelines(
             @Header("Authorization") String token,
-            @Path("teamId") String teamId,
-            @Body com.example.prm_mo.models.UpdateTeamRequest body
+            @Query("status") String status
     );
 
-    @retrofit2.http.DELETE("api/teams/{teamId}")
-    Call<Void> deleteTeam(
+    @PATCH("api/timelines/{id}/accept")
+    Call<ApiResponse<Timeline>> acceptTimeline(@Header("Authorization") String token, @Path("id") String timelineId);
+
+    @PATCH("api/timelines/{id}/arrive")
+    Call<ApiResponse<Timeline>> arriveTimeline(@Header("Authorization") String token, @Path("id") String timelineId);
+
+    @PATCH("api/timelines/{id}/complete")
+    Call<ApiResponse<Timeline>> completeTimeline(
             @Header("Authorization") String token,
-            @Path("teamId") String teamId
+            @Path("id") String timelineId,
+            @Body TimelineCompleteRequest body
     );
 
-    @PATCH("api/requests/{requestId}/verify")
-    Call<ApiResponse<com.example.prm_mo.models.RescueRequest>> verifyRequest(
+    @PATCH("api/timelines/{id}/fail")
+    Call<ApiResponse<Timeline>> failTimeline(
             @Header("Authorization") String token,
-            @Path("requestId") String requestId,
-            @Body com.example.prm_mo.models.VerifyRequestInput input
+            @Path("id") String timelineId,
+            @Body ReasonBody reasonBody
     );
+
+    @PATCH("api/timelines/{id}/withdraw")
+    Call<ApiResponse<Timeline>> withdrawTimeline(
+            @Header("Authorization") String token,
+            @Path("id") String timelineId,
+            @Body ReasonBody reasonBody
+    );
+
+    @GET("api/missions/{id}/requests")
+    Call<ApiResponse<List<MissionRequest>>> getMissionRequests(@Header("Authorization") String token, @Path("id") String missionId);
+
+    @POST("api/mission-requests/{id}/progress")
+    Call<ApiResponse<Void>> updateMissionProgress(
+            @Header("Authorization") String token,
+            @Path("id") String missionRequestId,
+            @Body ProgressRequestBody body
+    );
+
+    // ==========================================
+    // 5. STATIC CLASSES FOR BODY
+    // ==========================================
+    public static class ProgressRequestBody {
+        public int peopleRescued;
+        public List<SupplyItem> suppliesDelivered;
+        public ProgressRequestBody(int count, List<SupplyItem> supplies) {
+            this.peopleRescued = count;
+            this.suppliesDelivered = supplies;
+        }
+    }
+
+    public static class SupplyItem {
+        public String supplyId;
+        public int quantity;
+        public SupplyItem(String id, int qty) { this.supplyId = id; this.quantity = qty; }
+    }
+
+    public static class ReasonBody {
+        public String reason;
+        public ReasonBody(String r) { this.reason = r; }
+    }
 }
