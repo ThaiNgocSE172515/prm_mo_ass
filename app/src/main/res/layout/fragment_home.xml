@@ -10,7 +10,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Rescue Requests"
+        android:text="Yêu Cầu Cứu Hộ Của Tôi"
         android:textColor="#FFFFFF"
         android:textSize="22sp"
         android:textStyle="bold"

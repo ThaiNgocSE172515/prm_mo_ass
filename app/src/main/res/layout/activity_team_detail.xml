@@ -17,7 +17,7 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:text="Team Name" />
+            android:text="Tên Đội" />
 
         <TextView
             android:id="@+id/tvTeamStatus"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#8B5CF6"
                 android:textColor="#FFFFFF"
-                android:text="ĐIỀU PHỐI NHIỆM VỤ (ASSIGN MISSION)" />
+                android:text="ĐIỀU PHỐI VÀO NHIỆM VỤ" />
         </LinearLayout>
 
         <TextView
@@ -70,17 +70,27 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <Button
                 android:id="@+id/btnEditTeam"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="4dp"
                 android:backgroundTint="#F59E0B"
                 android:textColor="#FFFFFF"
-                android:text="SỬA ĐỔI (EDIT)" />
+                android:text="SỬA ĐỔI" />
+                
+            <Button
+                android:id="@+id/btnAddMember"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"
+                android:text="THÊM TV" />
 
             <Button
                 android:id="@+id/btnDeleteTeam"
@@ -90,8 +100,24 @@
                 android:layout_marginStart="8dp"
                 android:backgroundTint="#EF4444"
                 android:textColor="#FFFFFF"
-                android:text="XÓA ĐỘI (DELETE)" />
+                android:text="XÓA ĐỘI" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="DANH SÁCH THÀNH VIÊN"
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/llTeamMembers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingBottom="24dp"
+            android:orientation="vertical" />
     </LinearLayout>
 </ScrollView>

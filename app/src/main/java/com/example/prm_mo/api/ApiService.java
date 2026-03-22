@@ -89,6 +89,31 @@ public interface ApiService {
             @Query("limit") Integer limit
     );
 
+    @POST("api/missions")
+    Call<ApiResponse<com.example.prm_mo.models.Mission>> createMission(
+            @Header("Authorization") String token,
+            @Body com.example.prm_mo.models.CreateMissionInput input
+    );
+
+    @POST("api/missions/{id}/requests")
+    Call<ApiResponse<Object>> addRequestsToMission(
+            @Header("Authorization") String token,
+            @Path("id") String missionId,
+            @Body com.example.prm_mo.models.MissionAddRequestsInput input
+    );
+
+    @GET("api/missions/{id}/requests")
+    Call<ApiResponse<java.util.List<com.example.prm_mo.models.MissionRequest>>> getMissionRequests(
+            @Header("Authorization") String token,
+            @Path("id") String missionId
+    );
+
+    @GET("api/timelines")
+    Call<ApiResponse<java.util.List<com.example.prm_mo.models.Timeline>>> getTimelines(
+            @Header("Authorization") String token,
+            @Query("missionId") String missionId
+    );
+
     @POST("api/missions/{id}/teams")
     Call<ApiResponse<Object>> addTeamsToMission(
             @Header("Authorization") String token,
@@ -127,5 +152,22 @@ public interface ApiService {
     Call<ApiResponse<Void>> deleteTeam(
             @Header("Authorization") String token,
             @Path("teamId") String teamId
+    );
+
+    @POST("api/teams/{teamId}/members")
+    Call<ApiResponse<Object>> addTeamMember(
+            @Header("Authorization") String token,
+            @Path("teamId") String teamId,
+            @Body com.example.prm_mo.models.AddTeamMemberRequest request
+    );
+
+    @GET("api/users")
+    Call<com.example.prm_mo.models.UserListResponse> listUsers(
+            @Header("Authorization") String token,
+            @Query("role") String role,
+            @Query("isActive") Boolean isActive,
+            @Query("search") String search,
+            @Query("page") Integer page,
+            @Query("limit") Integer limit
     );
 }

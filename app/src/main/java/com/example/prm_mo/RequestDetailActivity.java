@@ -23,7 +23,6 @@ public class RequestDetailActivity extends AppCompatActivity {
 
     private TextView tvType, tvStatus, tvIncidentType, tvDescription, tvPeopleCount, tvPriority, tvCreatedAt;
     private TextView tvLocation;
-    private android.widget.ImageView ivDetailImage;
     private TextView step1Circle, step2Circle, step3Circle, step4Circle, step5Circle;
     private TextView step1Text, step2Text, step3Text, step4Text, step5Text;
     private View line1, line2, line3, line4;
@@ -51,7 +50,6 @@ public class RequestDetailActivity extends AppCompatActivity {
         tvPriority = findViewById(R.id.tvDetailPriority);
         tvCreatedAt = findViewById(R.id.tvDetailCreatedAt);
         tvLocation = findViewById(R.id.tvDetailLocation);
-        ivDetailImage = findViewById(R.id.ivDetailImage);
 
         step1Circle = findViewById(R.id.step1_circle);
         step2Circle = findViewById(R.id.step2_circle);
@@ -94,13 +92,54 @@ public class RequestDetailActivity extends AppCompatActivity {
         });
     }
 
+    private String translateStatus(String status) {
+        if (status == null) return "N/A";
+        switch (status.toUpperCase()) {
+            case "SUBMITTED": return "CHỜ XỬ LÝ";
+            case "VERIFIED": return "ĐÃ XÁC NHẬN";
+            case "IN_PROGRESS": return "ĐANG THỰC HIỆN";
+            case "FULFILLED": return "ĐÃ HOÀN THÀNH";
+            case "CLOSED": return "ĐÃ ĐÓNG";
+            case "CANCELLED": return "ĐÃ HỦY";
+            case "REJECTED": return "TỪ CHỐI";
+            case "PENDING": return "ĐANG CHỜ";
+            default: return status;
+        }
+    }
+
+    private String translateType(String type) {
+        if (type == null) return "";
+        if (type.equalsIgnoreCase("Rescue")) return "Cứu hộ";
+        if (type.equalsIgnoreCase("Relief")) return "Cứu trợ";
+        return type;
+    }
+
+    private String translateIncidentType(String incident) {
+        if (incident == null) return "";
+        if (incident.equalsIgnoreCase("Flood")) return "Ngập lụt";
+        if (incident.equalsIgnoreCase("Trapped")) return "Bị kẹt";
+        if (incident.equalsIgnoreCase("Medical")) return "Y tế";
+        if (incident.equalsIgnoreCase("Fire")) return "Hỏa hoạn";
+        return incident;
+    }
+
+    private String translatePriority(String priority) {
+        if (priority == null) return "Bình thường";
+        switch (priority) {
+            case "Critical": return "Khẩn cấp";
+            case "High": return "Cao";
+            case "Normal": return "Bình thường";
+            default: return priority;
+        }
+    }
+
     private void displayData(RescueRequest request) {
-        tvType.setText(request.getType());
-        tvStatus.setText(request.getStatus());
-        tvIncidentType.setText(request.getIncidentType());
+        tvType.setText(translateType(request.getType()));
+        tvStatus.setText(translateStatus(request.getStatus()));
+        tvIncidentType.setText(translateIncidentType(request.getIncidentType()));
         tvDescription.setText(request.getDescription());
         tvPeopleCount.setText(String.valueOf(request.getPeopleCount()));
-        tvPriority.setText(request.getPriority());
+        tvPriority.setText(translatePriority(request.getPriority()));
         tvCreatedAt.setText(request.getCreatedAt());
 
         if (request.getLocation() != null && request.getLocation().getCoordinates() != null && request.getLocation().getCoordinates().size() >= 2) {
@@ -109,23 +148,6 @@ public class RequestDetailActivity extends AppCompatActivity {
             tvLocation.setText(String.format("%.6f, %.6f", lat, lng));
         } else {
             tvLocation.setText("Chưa xác định");
-        }
-
-        if (request.getImageUrls() != null && !request.getImageUrls().isEmpty() && ivDetailImage != null) {
-            String imageUrl = request.getImageUrls().get(0);
-            new Thread(() -> {
-                try {
-                    java.io.InputStream in = new java.net.URL(imageUrl).openStream();
-                    android.graphics.Bitmap bmp = android.graphics.BitmapFactory.decodeStream(in);
-                    runOnUiThread(() -> {
-                        if (bmp != null) {
-                            ivDetailImage.setImageBitmap(bmp);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }).start();
         }
 
         updateStepper(request.getStatus());
@@ -191,7 +213,7 @@ public class RequestDetailActivity extends AppCompatActivity {
         if ("REJECTED".equals(status) || "CANCELLED".equals(status)) {
             int errorColor = Color.parseColor("#EF4444");
             highlightStep(step1Circle, step1Text, errorColor);
-            step1Text.setText(status);
+            step1Text.setText(translateStatus(status));
         }
     }
 

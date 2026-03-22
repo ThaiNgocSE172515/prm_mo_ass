@@ -19,7 +19,7 @@
             android:id="@+id/tvMissionName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên Mission"
+            android:text="Tên Nhiệm Vụ"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -60,7 +60,7 @@
                 android:id="@+id/tvMissionPriority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Priority"
+                android:text="Ưu Tiên"
                 android:textColor="#F43F5E"
                 android:textSize="14sp"
                 android:textStyle="bold" />

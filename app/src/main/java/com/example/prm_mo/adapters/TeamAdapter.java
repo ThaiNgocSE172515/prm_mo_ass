@@ -27,11 +27,22 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
         return new TeamViewHolder(view);
     }
 
+    private String translateStatus(String status) {
+        if (status == null) return "N/A";
+        switch (status.toUpperCase()) {
+            case "AVAILABLE": return "SẴN SÀNG";
+            case "ON_MISSION": return "ĐANG LÀM NHIỆM VỤ";
+            case "INACTIVE": return "NGỪNG HOẠT ĐỘNG";
+            case "OFF_DUTY": return "NGHỈ PHÉP";
+            default: return status;
+        }
+    }
+
     @Override
     public void onBindViewHolder(@NonNull TeamViewHolder holder, int position) {
         Team team = teamList.get(position);
         holder.tvTeamName.setText(team.getName() != null ? team.getName() : "Không tên");
-        holder.tvTeamStatus.setText(team.getStatus() != null ? team.getStatus() : "N/A");
+        holder.tvTeamStatus.setText(translateStatus(team.getStatus()));
 
         // Đổ màu theo status
         if ("AVAILABLE".equals(team.getStatus())) {

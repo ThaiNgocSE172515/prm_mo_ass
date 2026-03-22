@@ -30,13 +30,43 @@ public class RescueRequestAdapter extends RecyclerView.Adapter<RescueRequestAdap
         return new ViewHolder(view);
     }
 
+    private String translateStatus(String status) {
+        if (status == null) return "N/A";
+        switch (status.toUpperCase()) {
+            case "SUBMITTED": return "CHỜ XỬ LÝ";
+            case "VERIFIED": return "ĐÃ XÁC NHẬN";
+            case "IN_PROGRESS": return "ĐANG THỰC HIỆN";
+            case "FULFILLED": return "ĐÃ HOÀN THÀNH";
+            case "CLOSED": return "ĐÃ ĐÓNG";
+            case "CANCELLED": return "ĐÃ HỦY";
+            case "PENDING": return "ĐANG CHỜ";
+            default: return status;
+        }
+    }
+
+    private String translateType(String type) {
+        if (type == null) return "";
+        if (type.equalsIgnoreCase("Rescue")) return "Cứu hộ";
+        if (type.equalsIgnoreCase("Relief")) return "Cứu trợ";
+        return type;
+    }
+
+    private String translateIncidentType(String incident) {
+        if (incident == null) return "";
+        if (incident.equalsIgnoreCase("Flood")) return "Ngập lụt";
+        if (incident.equalsIgnoreCase("Trapped")) return "Bị kẹt";
+        if (incident.equalsIgnoreCase("Medical")) return "Y tế";
+        if (incident.equalsIgnoreCase("Fire")) return "Hỏa hoạn";
+        return incident;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RescueRequest request = requestList.get(position);
-        holder.tvType.setText(request.getType());
-        holder.tvStatus.setText(request.getStatus());
+        holder.tvType.setText(translateType(request.getType()));
+        holder.tvStatus.setText(translateStatus(request.getStatus()));
         holder.tvDescription.setText(request.getDescription());
-        holder.tvIncidentType.setText(request.getIncidentType());
+        holder.tvIncidentType.setText(translateIncidentType(request.getIncidentType()));
         holder.tvDate.setText(request.getCreatedAt() != null ? request.getCreatedAt().substring(0, 10) : "");
 
         holder.itemView.setOnClickListener(v -> {

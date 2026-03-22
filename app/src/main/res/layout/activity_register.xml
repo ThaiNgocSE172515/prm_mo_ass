@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
-            android:text="Create Account"
+            android:text="Tạo Tài Khoản"
             android:textColor="@color/white"
             android:textSize="36sp"
             android:textStyle="bold"
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Join the rescue community"
+            android:text="Tham gia cộng đồng cứu hộ"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username"
+                    android:hint="Tên đăng nhập"
                     app:startIconDrawable="@android:drawable/ic_menu_edit">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etRegUsername"
@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:hint="Display Name"
+                    android:hint="Tên hiển thị"
                     app:startIconDrawable="@android:drawable/ic_menu_myplaces">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etRegDisplayName"
@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:hint="Phone Number"
+                    android:hint="Số điện thoại"
                     app:startIconDrawable="@android:drawable/ic_menu_call">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etRegPhone"
@@ -115,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:hint="Password"
+                    android:hint="Mật khẩu"
                     app:passwordToggleEnabled="true"
                     app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
                     <com.google.android.material.textfield.TextInputEditText
@@ -130,7 +130,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="32dp"
-                    android:text="Register"
+                    android:text="Đăng Ký"
                     android:textSize="18sp"
                     app:cornerRadius="12dp" />
 
@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="24dp"
-                    android:text="Already have an account? Login"
+                    android:text="Đã có tài khoản? Đăng nhập ngay"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="16sp" />
 
