@@ -4,6 +4,9 @@ import java.util.List;
 
 public class RescueRequest {
     private String _id;
+    private String userName;
+    private String phoneNumber;
+    private String address;
     private String type;
     private String incidentType;
     private Location location;
@@ -15,16 +18,13 @@ public class RescueRequest {
     private String priority;
     private String createdAt;
 
-    // Inner classes
     public static class Location {
         private String type;
         private List<Double> coordinates;
-
         public Location(String type, List<Double> coordinates) {
             this.type = type;
             this.coordinates = coordinates;
         }
-
         public String getType() { return type; }
         public List<Double> getCoordinates() { return coordinates; }
     }
@@ -32,17 +32,31 @@ public class RescueRequest {
     public static class RequestSupply {
         private String supplyId;
         private int requestedQty;
-
         public RequestSupply(String supplyId, int requestedQty) {
             this.supplyId = supplyId;
             this.requestedQty = requestedQty;
         }
-
         public String getSupplyId() { return supplyId; }
         public int getRequestedQty() { return requestedQty; }
     }
 
-    // Getters and Setters
+    public String getUserName() { return userName != null ? userName : "Người dân"; }
+
+    public String getPhoneNumber() {
+        return phoneNumber != null ? phoneNumber : "Không có SĐT";
+    }
+
+    // FIX LỖI "Không có địa chỉ": Ưu tiên Address -> Description -> Tọa độ
+    public String getAddress() {
+        if (address != null && !address.trim().isEmpty()) return address;
+        if (description != null && !description.trim().isEmpty()) return description;
+        if (location != null && location.getCoordinates() != null && location.getCoordinates().size() >= 2) {
+            // Lấy tọa độ [Kinh độ, Vĩ độ]
+            return "Tọa độ: " + location.getCoordinates().get(1) + ", " + location.getCoordinates().get(0);
+        }
+        return "Không có địa chỉ cụ thể";
+    }
+
     public String getId() { return _id; }
     public void setId(String _id) { this._id = _id; }
     public String getType() { return type; }

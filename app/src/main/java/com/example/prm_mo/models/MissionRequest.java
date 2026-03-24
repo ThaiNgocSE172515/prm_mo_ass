@@ -1,17 +1,20 @@
 package com.example.prm_mo.models;
+import com.google.gson.annotations.SerializedName;
 
 public class MissionRequest {
     private String _id;
-    private String missionId;
-    private String requestId;
+
+    @SerializedName("requestId") // Bắt buộc phải có dòng này để khớp với JSON "requestId" từ Server
+    private RescueRequest request;
+
     private String status;
 
+    private int peopleNeeded;
+    private int peopleRescued;
+
     public String getId() { return _id; }
-    public void setId(String _id) { this._id = _id; }
-    public String getRequestId() { return requestId; }
-    public void setRequestId(String requestId) { this.requestId = requestId; }
-    public String getMissionId() { return missionId; }
-    public void setMissionId(String missionId) { this.missionId = missionId; }
+    public RescueRequest getRequest() { return request; }
     public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public int getPeopleNeeded() { return peopleNeeded; }
+    public int getPeopleRescued() { return peopleRescued; }
 }

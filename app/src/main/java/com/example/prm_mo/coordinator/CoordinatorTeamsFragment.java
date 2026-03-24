@@ -1,7 +1,6 @@
 package com.example.prm_mo.coordinator;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm_mo.R;
 import com.example.prm_mo.adapters.TeamAdapter;
 import com.example.prm_mo.api.RetrofitClient;
-import com.example.prm_mo.models.ApiResponse;
-import com.example.prm_mo.models.TeamListResponse;
-import com.example.prm_mo.models.Team;
+import com.example.prm_mo.models.*;
 import com.example.prm_mo.utils.SharedPrefsManager;
 
 import java.util.ArrayList;
@@ -37,10 +34,10 @@ public class CoordinatorTeamsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_coordinator_teams, container, false);
-        
+
         rvCoordinatorTeams = view.findViewById(R.id.rvCoordinatorTeams);
         rvCoordinatorTeams.setLayoutManager(new LinearLayoutManager(getContext()));
-        
+
         teamList = new ArrayList<>();
         adapter = new TeamAdapter(teamList);
         rvCoordinatorTeams.setAdapter(adapter);
@@ -80,14 +77,14 @@ public class CoordinatorTeamsFragment extends Fragment {
 
     private void createTeam(String teamName) {
         String token = SharedPrefsManager.getInstance(getContext()).getAccessToken();
-        com.example.prm_mo.models.CreateTeamRequest req = new com.example.prm_mo.models.CreateTeamRequest(teamName);
-        
+        CreateTeamRequest req = new CreateTeamRequest(teamName);
+
         RetrofitClient.getApiService().createTeam("Bearer " + token, req).enqueue(new Callback<ApiResponse<Team>>() {
             @Override
             public void onResponse(Call<ApiResponse<Team>> call, Response<ApiResponse<Team>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     Toast.makeText(getContext(), "Tạo đội thành công!", Toast.LENGTH_SHORT).show();
-                    loadTeams(); // Tải lại danh sách
+                    loadTeams();
                 } else {
                     String errorMsg = "Tạo đội thất bại";
                     try {
@@ -113,35 +110,35 @@ public class CoordinatorTeamsFragment extends Fragment {
             return;
         }
 
-        RetrofitClient.getApiService().listTeams("Bearer " + token, null, 1, 100)
-            .enqueue(new Callback<TeamListResponse>() {
-                @Override
-                public void onResponse(Call<TeamListResponse> call, Response<TeamListResponse> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        if (response.body().isSuccess() && response.body().getData() != null) {
-                            teamList.clear();
-                            teamList.addAll(response.body().getData());
-                            adapter.notifyDataSetChanged();
-                            Log.d("CoordinatorTeams", "Loaded " + teamList.size() + " teams");
+        RetrofitClient.getApiService().listTeams("Bearer " + token, null, Integer.valueOf(1), Integer.valueOf(50))
+                .enqueue(new Callback<TeamListResponse>() {
+                    @Override
+                    public void onResponse(Call<TeamListResponse> call, Response<TeamListResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (response.body().isSuccess() && response.body().getData() != null) {
+                                teamList.clear();
+                                teamList.addAll(response.body().getData());
+                                adapter.notifyDataSetChanged();
+                                Log.d("CoordinatorTeams", "Loaded " + teamList.size() + " teams");
+                            } else {
+                                 Log.e("CoordinatorTeams", "API Success False: " + response.body().getMessage());
+                            }
                         } else {
-                             Log.e("CoordinatorTeams", "API Success False: " + response.body().getMessage());
+                            try {
+                                String error = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
+                                Log.e("CoordinatorTeams", "Response Error: " + error);
+                                if (getContext() != null) Toast.makeText(getContext(), "Lỗi: " + error, Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {}
                         }
-                    } else {
-                        try {
-                            String error = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
-                            Log.e("CoordinatorTeams", "Response Error: " + error);
-                            if (getContext() != null) Toast.makeText(getContext(), "Lỗi: " + error, Toast.LENGTH_SHORT).show();
-                        } catch (Exception e) {}
                     }
-                }
 
-                @Override
-                public void onFailure(Call<TeamListResponse> call, Throwable t) {
-                    Log.e("CoordinatorTeams", "Network Failure", t);
-                    if(getContext() != null) {
-                        Toast.makeText(getContext(), "Lỗi kết nối máy chủ", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFailure(Call<TeamListResponse> call, Throwable t) {
+                        Log.e("CoordinatorTeams", "Network Failure", t);
+                        if(getContext() != null) {
+                            Toast.makeText(getContext(), "Lỗi kết nối máy chủ", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
+                });
     }
 }

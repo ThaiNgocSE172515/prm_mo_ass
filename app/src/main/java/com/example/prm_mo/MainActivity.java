@@ -117,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         if ("Rescue Coordinator".equals(role)) {
             intent = new Intent(MainActivity.this, com.example.prm_mo.coordinator.CoordinatorHomeActivity.class);
+        } else if ("Rescue Team".equals(role)) { // Đã bổ sung chuyển hướng cho Rescue Team
+            intent = new Intent(MainActivity.this, TeamHomeActivity.class);
         } else {
             intent = new Intent(MainActivity.this, CitizenHomeActivity.class);
         }

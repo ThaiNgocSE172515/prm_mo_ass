@@ -1,46 +1,28 @@
 package com.example.prm_mo.api;
 
-import com.example.prm_mo.models.ApiResponse;
-import com.example.prm_mo.models.CreateTeamRequest;
-import com.example.prm_mo.models.LoginRequest;
-import com.example.prm_mo.models.LoginResponseData;
-import com.example.prm_mo.models.MissionAddTeamsInput;
-import com.example.prm_mo.models.MissionListResponse;
-import com.example.prm_mo.models.RegisterRequest;
-import com.example.prm_mo.models.RegisterResponse;
-import com.example.prm_mo.models.RequestListResponse;
-import com.example.prm_mo.models.RescueRequest;
-import com.example.prm_mo.models.Team;
-import com.example.prm_mo.models.TeamListResponse;
-import com.example.prm_mo.models.UpdateTeamRequest;
-import com.example.prm_mo.models.User;
-import com.example.prm_mo.models.VerifyRequestInput;
-
+import com.example.prm_mo.models.*;
 import java.util.List;
-
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.PATCH;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 
 public interface ApiService {
+
+    // ==========================================
+    // 1. AUTHENTICATION
+    // ==========================================
     @POST("api/auth/login")
     Call<ApiResponse<LoginResponseData>> login(@Body LoginRequest loginRequest);
 
     @POST("api/auth/register")
     Call<ApiResponse<RegisterResponse>> register(@Body RegisterRequest registerRequest);
 
-    @POST("api/auth/refresh")
-    Call<ApiResponse<LoginResponseData>> refreshToken();
-
     @GET("api/auth/me")
     Call<ApiResponse<User>> getCurrentUser(@Header("Authorization") String token);
 
+
+    // ==========================================
+    // 2. REQUEST MANAGEMENT
+    // ==========================================
     @POST("api/requests")
     Call<ApiResponse<RescueRequest>> addRequest(@Header("Authorization") String token, @Body RescueRequest request);
 
@@ -49,15 +31,6 @@ public interface ApiService {
             @Header("Authorization") String token,
             @Query("status") String status,
             @Query("type") String type,
-            @Query("page") Integer page,
-            @Query("limit") Integer limit
-    );
-
-    @GET("api/requests")
-    Call<RequestListResponse> listAllRequests(
-            @Header("Authorization") String token,
-            @Query("status") String status,
-            @Query("priority") String priority,
             @Query("page") Integer page,
             @Query("limit") Integer limit
     );
@@ -72,6 +45,15 @@ public interface ApiService {
     Call<ApiResponse<RescueRequest>> cancelRequest(
             @Header("Authorization") String token,
             @Path("requestId") String requestId
+    );
+
+    @GET("api/requests")
+    Call<RequestListResponse> listAllRequests(
+            @Header("Authorization") String token,
+            @Query("status") String status,
+            @Query("priority") String priority,
+            @Query("page") Integer page,
+            @Query("limit") Integer limit
     );
 
     @PATCH("api/requests/{requestId}/verify")
@@ -170,4 +152,90 @@ public interface ApiService {
             @Query("page") Integer page,
             @Query("limit") Integer limit
     );
+
+    // ==========================================
+    // RESCUE TEAM ACTIONS (TIMELINES)
+    // ==========================================
+    @GET("api/timelines")
+    Call<ApiResponse<List<Timeline>>> getMyTimelines(
+            @Header("Authorization") String token,
+            @Query("status") String status
+    );
+
+    @PATCH("api/timelines/{id}/accept")
+    Call<ApiResponse<Timeline>> acceptTimeline(@Header("Authorization") String token, @Path("id") String timelineId);
+
+    @PATCH("api/timelines/{id}/arrive")
+    Call<ApiResponse<Timeline>> arriveTimeline(@Header("Authorization") String token, @Path("id") String timelineId);
+
+    @PATCH("api/timelines/{id}/complete")
+    Call<ApiResponse<Timeline>> completeTimeline(
+            @Header("Authorization") String token,
+            @Path("id") String timelineId,
+            @Body TimelineCompleteRequest body
+    );
+
+    @PATCH("api/timelines/{id}/fail")
+    Call<ApiResponse<Timeline>> failTimeline(
+            @Header("Authorization") String token,
+            @Path("id") String timelineId,
+            @Body ReasonBody reasonBody
+    );
+
+    @PATCH("api/timelines/{id}/withdraw")
+    Call<ApiResponse<Timeline>> withdrawTimeline(
+            @Header("Authorization") String token,
+            @Path("id") String timelineId,
+            @Body ReasonBody reasonBody
+    );
+
+    @GET("api/missions/{id}/requests")
+    Call<ApiResponse<List<MissionRequest>>> getMissionRequests(@Header("Authorization") String token, @Path("id") String missionId);
+
+    @POST("api/mission-requests/{id}/progress")
+    Call<ApiResponse<Void>> updateMissionProgress(
+            @Header("Authorization") String token,
+            @Path("id") String missionRequestId,
+            @Body ProgressRequestBody body
+    );
+
+    @GET("api/team-requests")
+    Call<ApiResponse<List<com.example.prm_mo.models.TeamRequest>>> getTeamRequests(
+            @Header("Authorization") String token,
+            @Query("missionId") String missionId
+    );
+
+    @GET("api/notifications/me")
+    Call<ApiResponse<List<com.example.prm_mo.models.Notification>>> getMyNotifications(
+            @Header("Authorization") String token
+    );
+
+    @PATCH("api/notifications/read/{notificationId}")
+    Call<ApiResponse<Void>> markNotificationRead(
+            @Header("Authorization") String token,
+            @Path("notificationId") String notificationId
+    );
+
+    // ==========================================
+    // 5. STATIC CLASSES FOR BODY
+    // ==========================================
+    public static class ProgressRequestBody {
+        public int peopleRescued;
+        public List<SupplyItem> suppliesDelivered;
+        public ProgressRequestBody(int count, List<SupplyItem> supplies) {
+            this.peopleRescued = count;
+            this.suppliesDelivered = supplies;
+        }
+    }
+
+    public static class SupplyItem {
+        public String name;
+        public int deliveredQty;
+        public SupplyItem(String n, int qty) { this.name = n; this.deliveredQty = qty; }
+    }
+
+    public static class ReasonBody {
+        public String reason;
+        public ReasonBody(String r) { this.reason = r; }
+    }
 }

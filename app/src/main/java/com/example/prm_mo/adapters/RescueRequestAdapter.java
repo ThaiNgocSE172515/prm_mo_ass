@@ -68,6 +68,11 @@ public class RescueRequestAdapter extends RecyclerView.Adapter<RescueRequestAdap
         holder.tvDescription.setText(request.getDescription());
         holder.tvIncidentType.setText(translateIncidentType(request.getIncidentType()));
         holder.tvDate.setText(request.getCreatedAt() != null ? request.getCreatedAt().substring(0, 10) : "");
+        
+        holder.tvCitizenName.setText("Hộ dân: " + request.getUserName());
+        holder.tvCitizenPhone.setText("SĐT: " + request.getPhoneNumber());
+        holder.tvAddress.setText("Địa chỉ: " + request.getAddress());
+        holder.tvPeopleCount.setText("Số người cần cứu: " + request.getPeopleCount());
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), RequestDetailActivity.class);
@@ -83,6 +88,7 @@ public class RescueRequestAdapter extends RecyclerView.Adapter<RescueRequestAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvType, tvStatus, tvDescription, tvIncidentType, tvDate;
+        TextView tvCitizenName, tvCitizenPhone, tvAddress, tvPeopleCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,6 +97,10 @@ public class RescueRequestAdapter extends RecyclerView.Adapter<RescueRequestAdap
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvIncidentType = itemView.findViewById(R.id.tvIncidentType);
             tvDate = itemView.findViewById(R.id.tvDate);
+            tvCitizenName = itemView.findViewById(R.id.tvCitizenName);
+            tvCitizenPhone = itemView.findViewById(R.id.tvCitizenPhone);
+            tvAddress = itemView.findViewById(R.id.tvAddress);
+            tvPeopleCount = itemView.findViewById(R.id.tvPeopleCount);
         }
     }
 }
