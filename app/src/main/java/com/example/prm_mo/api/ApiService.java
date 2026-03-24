@@ -76,6 +76,12 @@ public interface ApiService {
             @Header("Authorization") String token,
             @Body com.example.prm_mo.models.CreateMissionInput input
     );
+    @POST("api/missions/{id}/teams")
+    Call<ApiResponse<Object>> addTeamsToMission(
+            @Header("Authorization") String token,
+            @Path("id") String missionId,
+            @Body MissionAddTeamsInput input
+    );
 
     @POST("api/missions/{id}/requests")
     Call<ApiResponse<Object>> addRequestsToMission(
@@ -85,22 +91,12 @@ public interface ApiService {
     );
 
     @GET("api/missions/{id}/requests")
-    Call<ApiResponse<java.util.List<com.example.prm_mo.models.MissionRequest>>> getMissionRequests(
-            @Header("Authorization") String token,
-            @Path("id") String missionId
-    );
+    Call<ApiResponse<List<MissionRequest>>> getMissionRequests(@Header("Authorization") String token, @Path("id") String missionId);
 
     @GET("api/timelines")
     Call<ApiResponse<java.util.List<com.example.prm_mo.models.Timeline>>> getTimelines(
             @Header("Authorization") String token,
             @Query("missionId") String missionId
-    );
-
-    @POST("api/missions/{id}/teams")
-    Call<ApiResponse<Object>> addTeamsToMission(
-            @Header("Authorization") String token,
-            @Path("id") String missionId,
-            @Body MissionAddTeamsInput input
     );
 
     @GET("api/teams")
@@ -188,9 +184,6 @@ public interface ApiService {
             @Path("id") String timelineId,
             @Body ReasonBody reasonBody
     );
-
-    @GET("api/missions/{id}/requests")
-    Call<ApiResponse<List<MissionRequest>>> getMissionRequests(@Header("Authorization") String token, @Path("id") String missionId);
 
     @POST("api/mission-requests/{id}/progress")
     Call<ApiResponse<Void>> updateMissionProgress(

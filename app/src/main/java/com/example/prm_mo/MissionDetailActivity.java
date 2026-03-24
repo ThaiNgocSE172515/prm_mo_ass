@@ -236,7 +236,7 @@ public class MissionDetailActivity extends AppCompatActivity {
                     llAssignedRequests.removeAllViews();
                     for (com.example.prm_mo.models.MissionRequest req : requests) {
                         TextView tv = new TextView(MissionDetailActivity.this);
-                        tv.setText("Request ID: " + req.getRequestId() + "\nTrạng thái: " + translateStatus(req.getStatus()));
+                        tv.setText("Request ID: " + req.getRequest().getId() + "\nTrạng thái: " + translateStatus(req.getStatus()));
                         tv.setTextColor(android.graphics.Color.WHITE);
                         tv.setPadding(0, 16, 0, 16);
                         llAssignedRequests.addView(tv);
@@ -259,7 +259,7 @@ public class MissionDetailActivity extends AppCompatActivity {
                     llAssignedTeams.removeAllViews();
                     for (com.example.prm_mo.models.Timeline tline : lists) {
                         TextView tv = new TextView(MissionDetailActivity.this);
-                        tv.setText("Team ID: " + tline.getTeamId() + "\nTrạng thái: " + translateStatus(tline.getStatus()));
+                        tv.setText("Team ID: " + tline.getMission().getId() + "\nTrạng thái: " + translateStatus(tline.getStatus()));
                         tv.setTextColor(android.graphics.Color.WHITE);
                         tv.setPadding(0, 16, 0, 16);
                         llAssignedTeams.addView(tv);
