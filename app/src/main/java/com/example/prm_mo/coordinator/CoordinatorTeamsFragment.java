@@ -111,7 +111,7 @@ public class CoordinatorTeamsFragment extends Fragment {
             return;
         }
 
-        RetrofitClient.getApiService().listTeams("Bearer " + token, null, Integer.valueOf(1), Integer.valueOf(50))
+        RetrofitClient.getApiService().listTeams("Bearer " + token, null, 1, 50)
                 .enqueue(new Callback<TeamListResponse>() {
                     @Override
                     public void onResponse(Call<TeamListResponse> call, Response<TeamListResponse> response) {

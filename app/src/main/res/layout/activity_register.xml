@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient"
+    android:background="@color/background"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="24dp">
+        android:paddingBottom="@dimen/spacing_lg">
 
         <TextView
             android:id="@+id/tvRegHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="@dimen/spacing_xl"
             android:text="Tạo Tài Khoản"
-            android:textColor="@color/white"
-            android:textSize="36sp"
-            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_hero"
+            android:textAppearance="@style/TextAppearance.App.Hero"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,10 +28,11 @@
             android:id="@+id/tvRegSubHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/spacing_sm"
             android:text="Tham gia cộng đồng cứu hộ"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_body"
+            android:textAppearance="@style/TextAppearance.App.Body.Secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvRegHeader" />
@@ -40,11 +41,13 @@
             android:id="@+id/cardRegister"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_xl"
+            android:layout_marginEnd="@dimen/spacing_lg"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation_raised"
+            app:strokeColor="@color/card_stroke"
+            app:strokeWidth="@dimen/card_stroke_width"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvRegSubHeader">
@@ -53,14 +56,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="@dimen/padding_card">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.App.TextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Tên đăng nhập"
-                    app:startIconDrawable="@android:drawable/ic_menu_edit">
+                    app:startIconDrawable="@android:drawable/ic_menu_edit"
+                    app:startIconTint="@color/text_secondary">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etRegUsername"
                         android:layout_width="match_parent"
@@ -69,12 +73,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.App.TextInput"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/spacing_sm"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:hint="Tên hiển thị"
-                    app:startIconDrawable="@android:drawable/ic_menu_myplaces">
+                    app:startIconDrawable="@android:drawable/ic_menu_edit"
+                    app:startIconTint="@color/text_secondary">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etRegDisplayName"
                         android:layout_width="match_parent"
@@ -83,12 +88,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.App.TextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_sm"
                     android:hint="Email"
-                    app:startIconDrawable="@android:drawable/ic_dialog_email">
+                    app:startIconDrawable="@android:drawable/ic_dialog_email"
+                    app:startIconTint="@color/text_secondary">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etRegEmail"
                         android:layout_width="match_parent"
@@ -97,12 +103,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.App.TextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_sm"
                     android:hint="Số điện thoại"
-                    app:startIconDrawable="@android:drawable/ic_menu_call">
+                    app:startIconDrawable="@android:drawable/ic_menu_call"
+                    app:startIconTint="@color/text_secondary">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etRegPhone"
                         android:layout_width="match_parent"
@@ -111,13 +118,15 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.App.TextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_sm"
                     android:hint="Mật khẩu"
                     app:passwordToggleEnabled="true"
-                    app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
+                    app:passwordToggleTint="@color/text_secondary"
+                    app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+                    app:startIconTint="@color/text_secondary">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etRegPassword"
                         android:layout_width="match_parent"
@@ -127,22 +136,23 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnRegister"
+                    style="@style/Widget.App.Button"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginTop="@dimen/spacing_xl"
                     android:text="Đăng Ký"
-                    android:textSize="18sp"
-                    app:cornerRadius="12dp" />
+                    app:icon="@android:drawable/ic_menu_save" />
 
                 <TextView
                     android:id="@+id/tvBackToLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/spacing_md"
                     android:text="Đã có tài khoản? Đăng nhập ngay"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="16sp" />
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/text_body"
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

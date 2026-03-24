@@ -12,6 +12,7 @@ import com.example.prm_mo.adapters.MissionRequestAdapter;
 import com.example.prm_mo.api.ApiService;
 import com.example.prm_mo.api.RetrofitClient;
 import com.example.prm_mo.models.*;
+import com.example.prm_mo.models.MissionRequestProgressInput;
 import com.example.prm_mo.utils.SharedPrefsManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import retrofit2.Response;
 
 public class TimelineDetailActivity extends AppCompatActivity {
     private String timelineId, missionId, currentStatus;
-    private Button btnAction, btnFail, btnWithdraw;
+    private Button btnAction;
     private ImageView btnBack;
     private TextView tvStatusDetail;
     private MissionRequestAdapter adapter;
@@ -39,8 +40,6 @@ public class TimelineDetailActivity extends AppCompatActivity {
         if (currentStatus == null) currentStatus = "ASSIGNED";
 
         btnAction = findViewById(R.id.btnAction);
-        btnFail = findViewById(R.id.btnFail);
-        btnWithdraw = findViewById(R.id.btnWithdraw);
         btnBack = findViewById(R.id.btnBack);
         tvStatusDetail = findViewById(R.id.tvStatusDetail);
 
@@ -56,8 +55,6 @@ public class TimelineDetailActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
 
         btnAction.setOnClickListener(v -> handleAction());
-        btnFail.setOnClickListener(v -> showReasonDialog("FAIL"));
-        btnWithdraw.setOnClickListener(v -> showReasonDialog("WITHDRAW"));
 
         Button btnViewHistory = findViewById(R.id.btnViewHistory);
         btnViewHistory.setOnClickListener(v -> {
@@ -78,22 +75,14 @@ public class TimelineDetailActivity extends AppCompatActivity {
         if ("ASSIGNED".equals(currentStatus)) {
             btnAction.setVisibility(View.VISIBLE);
             btnAction.setText("CHẤP NHẬN & DI CHUYỂN");
-            btnFail.setVisibility(View.GONE);
-            btnWithdraw.setVisibility(View.VISIBLE);
         } else if ("EN_ROUTE".equals(currentStatus)) {
             btnAction.setVisibility(View.VISIBLE);
             btnAction.setText("ĐÃ ĐẾN HIỆN TRƯỜNG");
-            btnFail.setVisibility(View.VISIBLE);
-            btnWithdraw.setVisibility(View.VISIBLE);
         } else if ("ON_SITE".equals(currentStatus)) {
             btnAction.setVisibility(View.VISIBLE);
             btnAction.setText("HOÀN THÀNH NHIỆM VỤ");
-            btnFail.setVisibility(View.VISIBLE);
-            btnWithdraw.setVisibility(View.VISIBLE);
         } else {
             btnAction.setVisibility(View.GONE);
-            btnFail.setVisibility(View.GONE);
-            btnWithdraw.setVisibility(View.GONE);
         }
     }
 
@@ -252,17 +241,11 @@ public class TimelineDetailActivity extends AppCompatActivity {
     private void sendProgressReport(String missionRequestId, int count, String supplyName, int supplyQty) {
         String token = "Bearer " + SharedPrefsManager.getInstance(this).getAccessToken();
 
-        List<ApiService.SupplyItem> supplies = null;
-        if(!supplyName.isEmpty() && supplyQty > 0) {
-            supplies = new ArrayList<>();
-            supplies.add(new ApiService.SupplyItem(supplyName, supplyQty));
-        }
-
-        ApiService.ProgressRequestBody body = new ApiService.ProgressRequestBody(count, supplies);
-
-        RetrofitClient.getApiService().updateMissionProgress(token, missionRequestId, body).enqueue(new Callback<ApiResponse<Void>>() {
+        MissionRequestProgressInput progress = new MissionRequestProgressInput(count);
+        
+        RetrofitClient.getApiService().updateMissionRequestProgress(token, missionRequestId, progress).enqueue(new Callback<ApiResponse<MissionRequest>>() {
             @Override
-            public void onResponse(Call<ApiResponse<Void>> call, Response<ApiResponse<Void>> response) {
+            public void onResponse(Call<ApiResponse<MissionRequest>> call, Response<ApiResponse<MissionRequest>> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(TimelineDetailActivity.this, "Đã cập nhật tiến độ!", Toast.LENGTH_SHORT).show();
                     fetchMissionRequests(); // Load lại DS
@@ -272,7 +255,7 @@ public class TimelineDetailActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<ApiResponse<Void>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<MissionRequest>> call, Throwable t) {
                 Toast.makeText(TimelineDetailActivity.this, "Lỗi mạng", Toast.LENGTH_SHORT).show();
             }
         });

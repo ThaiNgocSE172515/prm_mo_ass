@@ -90,6 +90,19 @@ public interface ApiService {
             @Body com.example.prm_mo.models.MissionAddRequestsInput input
     );
 
+    @PATCH("api/missions/{id}/start")
+    Call<ApiResponse<Mission>> startMission(
+            @Header("Authorization") String token,
+            @Path("id") String missionId,
+            @Body StartMissionRequest request
+    );
+
+    @GET("api/missions/{id}")
+    Call<ApiResponse<Mission>> getMissionById(
+            @Header("Authorization") String token,
+            @Path("id") String missionId
+    );
+
     @GET("api/missions/{id}/requests")
     Call<ApiResponse<List<MissionRequest>>> getMissionRequests(@Header("Authorization") String token, @Path("id") String missionId);
 
@@ -186,10 +199,10 @@ public interface ApiService {
     );
 
     @POST("api/mission-requests/{id}/progress")
-    Call<ApiResponse<Void>> updateMissionProgress(
+    Call<ApiResponse<MissionRequest>> updateMissionRequestProgress(
             @Header("Authorization") String token,
             @Path("id") String missionRequestId,
-            @Body ProgressRequestBody body
+            @Body MissionRequestProgressInput progress
     );
 
     @GET("api/team-requests")

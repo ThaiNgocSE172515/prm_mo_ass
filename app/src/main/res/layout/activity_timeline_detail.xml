@@ -99,43 +99,6 @@
                 app:backgroundTint="#2196F3"
                 app:elevation="4dp"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="12dp"
-                android:weightSum="2">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnFail"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:text="THẤT BẠI"
-                    android:textStyle="bold"
-                    android:textColor="#E53935"
-                    app:strokeColor="#E53935"
-                    app:strokeWidth="1.5dp"
-                    app:cornerRadius="12dp"
-                    android:visibility="gone"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnWithdraw"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:text="RÚT LUI"
-                    android:textStyle="bold"
-                    android:textColor="#757575"
-                    app:strokeColor="#B0BEC5"
-                    app:strokeWidth="1.5dp"
-                    app:cornerRadius="12dp"/>
-            </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

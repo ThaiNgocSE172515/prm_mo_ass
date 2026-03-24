@@ -3,67 +3,92 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    app:cardBackgroundColor="#1E293B"
-    app:cardCornerRadius="12dp"
-    app:strokeWidth="0dp">
+    android:layout_marginHorizontal="@dimen/spacing_md"
+    android:layout_marginVertical="@dimen/spacing_sm"
+    app:cardBackgroundColor="@color/surface"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation"
+    app:strokeColor="@color/card_stroke"
+    app:strokeWidth="@dimen/card_stroke_width">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/padding_card">
 
         <TextView
             android:id="@+id/tvMissionName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tên Nhiệm Vụ"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_h3"
+            android:textAppearance="@style/TextAppearance.App.H3" />
 
         <TextView
             android:id="@+id/tvMissionDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/spacing_xs"
             android:text="Mô tả"
-            android:textColor="#CBD5E1"
-            android:textSize="14sp" />
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_small"
+            android:textAppearance="@style/TextAppearance.App.Small" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="@dimen/spacing_md"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <TextView
+            <com.google.android.material.chip.Chip
                 android:id="@+id/tvMissionStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#3B82F6"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
                 android:text="Trạng thái"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/text_caption"
+                android:textStyle="bold"
+                app:chipBackgroundColor="@color/status_in_progress_bg"
+                app:chipMinHeight="24dp"
+                app:chipStartPadding="12dp"
+                app:chipEndPadding="12dp" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <TextView
+            <com.google.android.material.chip.Chip
                 android:id="@+id/tvMissionPriority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ưu Tiên"
-                android:textColor="#F43F5E"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/text_caption"
+                android:textStyle="bold"
+                app:chipBackgroundColor="@color/error_container"
+                app:chipMinHeight="24dp"
+                app:chipStartPadding="12dp"
+                app:chipEndPadding="12dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStartMission"
+                style="@style/Widget.App.Button.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_small"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:text="Start"
+                android:textSize="@dimen/text_small"
+                app:icon="@android:drawable/ic_media_play" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

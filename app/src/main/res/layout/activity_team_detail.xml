@@ -1,123 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#0F172A">
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/padding_screen">
 
-        <TextView
-            android:id="@+id/tvTeamNameTitle"
-            android:layout_width="wrap_content"
+        <!-- Header Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:text="Tên Đội" />
+            android:layout_marginBottom="@dimen/spacing_md"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:strokeColor="@color/card_stroke"
+            app:strokeWidth="1dp">
 
-        <TextView
-            android:id="@+id/tvTeamStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="#3B82F6"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:textColor="#FFFFFF"
-            android:text="AVAILABLE" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="HÀNH ĐỘNG ĐIỀU PHỐI"
-            android:textColor="#94A3B8"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvTeamNameTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Đội"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_h2"
+                    android:textStyle="bold"
+                    android:gravity="center" />
 
-        <LinearLayout
+                <TextView
+                    android:id="@+id/tvTeamStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:background="@drawable/chip_background"
+                    android:paddingHorizontal="@dimen/spacing_md"
+                    android:paddingVertical="@dimen/spacing_xs"
+                    android:text="AVAILABLE"
+                    android:textColor="@color/on_primary"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Actions Card -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/llDispatchActions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:strokeColor="@color/card_stroke"
+            app:strokeWidth="1dp">
 
-            <Button
-                android:id="@+id/btnAssignMission"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#8B5CF6"
-                android:textColor="#FFFFFF"
-                android:text="ĐIỀU PHỐI VÀO NHIỆM VỤ" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="QUẢN LÝ ĐỘI"
-            android:textColor="#94A3B8"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="HÀNH ĐỘNG ĐIỀU PHỐI"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/spacing_sm" />
 
-        <LinearLayout
+                <Button
+                    android:id="@+id/btnAssignMission"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:backgroundTint="@color/primary"
+                    android:textColor="@color/on_primary"
+                    android:text="ĐIỀU PHỐI VÀO NHIỆM VỤ"
+                    android:textSize="@dimen/text_button"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Members Card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_marginBottom="@dimen/spacing_md"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:strokeColor="@color/card_stroke"
+            app:strokeWidth="1dp">
 
-            <Button
-                android:id="@+id/btnEditTeam"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="4dp"
-                android:backgroundTint="#F59E0B"
-                android:textColor="#FFFFFF"
-                android:text="SỬA ĐỔI" />
-                
-            <Button
-                android:id="@+id/btnAddMember"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="4dp"
-                android:backgroundTint="#4CAF50"
-                android:textColor="#FFFFFF"
-                android:text="THÊM TV" />
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card">
 
-            <Button
-                android:id="@+id/btnDeleteTeam"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:backgroundTint="#EF4444"
-                android:textColor="#FFFFFF"
-                android:text="XÓA ĐỘI" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DANH SÁCH THÀNH VIÊN"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/spacing_sm" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="DANH SÁCH THÀNH VIÊN"
-            android:textColor="#94A3B8"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+                <LinearLayout
+                    android:id="@+id/llTeamMembers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingVertical="@dimen/spacing_sm" />
 
-        <LinearLayout
-            android:id="@+id/llTeamMembers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:paddingBottom="24dp"
-            android:orientation="vertical" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 </ScrollView>

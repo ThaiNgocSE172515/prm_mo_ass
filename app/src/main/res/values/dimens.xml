@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing System - 4dp base unit -->
+    <dimen name="space_0">0dp</dimen>
+    <dimen name="space_1">4dp</dimen>
+    <dimen name="space_2">8dp</dimen>
+    <dimen name="space_3">12dp</dimen>
+    <dimen name="space_4">16dp</dimen>
+    <dimen name="space_5">20dp</dimen>
+    <dimen name="space_6">24dp</dimen>
+    <dimen name="space_8">32dp</dimen>
+    <dimen name="space_10">40dp</dimen>
+    <dimen name="space_12">48dp</dimen>
+    <dimen name="space_16">64dp</dimen>
+
+    <!-- Common Spacing Aliases -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_sm">8dp</dimen>
+    <dimen name="spacing_md">16dp</dimen>
+    <dimen name="spacing_lg">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+    <dimen name="spacing_2xl">48dp</dimen>
+
+    <!-- Padding -->
+    <dimen name="padding_screen">16dp</dimen>
+    <dimen name="padding_card">16dp</dimen>
+    <dimen name="padding_card_small">12dp</dimen>
+    <dimen name="padding_input">16dp</dimen>
+    <dimen name="padding_button">16dp</dimen>
+
+    <!-- Margins -->
+    <dimen name="margin_screen">16dp</dimen>
+    <dimen name="margin_card">16dp</dimen>
+    <dimen name="margin_card_small">8dp</dimen>
+    <dimen name="margin_element">12dp</dimen>
+
+    <!-- Card -->
+    <dimen name="card_corner_radius">16dp</dimen>
+    <dimen name="card_corner_radius_small">12dp</dimen>
+    <dimen name="card_corner_radius_large">20dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_elevation_raised">8dp</dimen>
+    <dimen name="card_stroke_width">1dp</dimen>
+
+    <!-- Button -->
+    <dimen name="button_height_small">40dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_corner_radius">12dp</dimen>
+    <dimen name="button_corner_radius_small">8dp</dimen>
+    <dimen name="button_padding_horizontal">24dp</dimen>
+
+    <!-- Input -->
+    <dimen name="input_height">56dp</dimen>
+    <dimen name="input_corner_radius">12dp</dimen>
+    <dimen name="input_stroke_width">1dp</dimen>
+    <dimen name="input_stroke_width_focused">2dp</dimen>
+
+    <!-- Status Badge -->
+    <dimen name="badge_corner_radius">20dp</dimen>
+    <dimen name="badge_padding_horizontal">12dp</dimen>
+    <dimen name="badge_padding_vertical">4dp</dimen>
+
+    <!-- Avatar -->
+    <dimen name="avatar_small">32dp</dimen>
+    <dimen name="avatar_medium">48dp</dimen>
+    <dimen name="avatar_large">64dp</dimen>
+    <dimen name="avatar_corner_radius">50%</dimen>
+
+    <!-- Icon -->
+    <dimen name="icon_small">16dp</dimen>
+    <dimen name="icon_medium">24dp</dimen>
+    <dimen name="icon_large">32dp</dimen>
+    <dimen name="icon_xlarge">48dp</dimen>
+
+    <!-- Typography -->
+    <dimen name="text_hero">32sp</dimen>
+    <dimen name="text_hero_line_height">40sp</dimen>
+    <dimen name="text_h1">28sp</dimen>
+    <dimen name="text_h1_line_height">36sp</dimen>
+    <dimen name="text_h2">24sp</dimen>
+    <dimen name="text_h2_line_height">32sp</dimen>
+    <dimen name="text_h3">20sp</dimen>
+    <dimen name="text_h3_line_height">28sp</dimen>
+    <dimen name="text_body">16sp</dimen>
+    <dimen name="text_body_line_height">24sp</dimen>
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text_small_line_height">20sp</dimen>
+    <dimen name="text_caption">12sp</dimen>
+    <dimen name="text_caption_line_height">16sp</dimen>
+    <dimen name="text_button">16sp</dimen>
+    <dimen name="text_overline">12sp</dimen>
+
+    <!-- Divider -->
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="divider_height_thick">2dp</dimen>
+
+    <!-- List -->
+    <dimen name="list_item_height">72dp</dimen>
+    <dimen name="list_item_height_compact">56dp</dimen>
+    <dimen name="list_item_spacing">8dp</dimen>
+
+    <!-- Bottom Navigation -->
+    <dimen name="bottom_nav_height">80dp</dimen>
+    <dimen name="bottom_nav_icon_size">24dp</dimen>
+    <dimen name="bottom_nav_label_size">12sp</dimen>
+
+    <!-- App Bar -->
+    <dimen name="app_bar_height">64dp</dimen>
+    <dimen name="app_bar_height_extended">128dp</dimen>
+
+    <!-- FAB -->
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="fab_size_small">40dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Animation -->
+    <integer name="anim_duration_fast">150</integer>
+    <integer name="anim_duration_normal">300</integer>
+    <integer name="anim_duration_slow">450</integer>
+</resources>

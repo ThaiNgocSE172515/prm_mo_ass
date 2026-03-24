@@ -43,46 +43,101 @@ public class CoordinatorMissionsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_coordinator_missions, container, false);
-        
-        rvCoordinatorMissions = view.findViewById(R.id.rvCoordinatorMissions);
-        rvCoordinatorMissions.setLayoutManager(new LinearLayoutManager(getContext()));
-        
-        missionList = new ArrayList<>();
-        adapter = new MissionAdapter(missionList);
-        rvCoordinatorMissions.setAdapter(adapter);
+        try {
+            View view = inflater.inflate(R.layout.fragment_coordinator_missions, container, false);
+            
+            rvCoordinatorMissions = view.findViewById(R.id.rvCoordinatorMissions);
+            if (rvCoordinatorMissions == null) {
+                Log.e("CoordinatorMissions", "RecyclerView not found");
+                return view;
+            }
+            
+            rvCoordinatorMissions.setLayoutManager(new LinearLayoutManager(getContext()));
+            
+            missionList = new ArrayList<>();
+            try {
+                adapter = new MissionAdapter(missionList);
+                rvCoordinatorMissions.setAdapter(adapter);
+            } catch (Exception e) {
+                Log.e("CoordinatorMissions", "Error creating adapter", e);
+                Toast.makeText(getContext(), "Lỗi khởi tạo adapter", Toast.LENGTH_SHORT).show();
+                return view;
+            }
 
-        FloatingActionButton fabAddMission = view.findViewById(R.id.fabAddMission);
-        fabAddMission.setOnClickListener(v -> showCreateMissionDialog());
+            FloatingActionButton fabAddMission = view.findViewById(R.id.fabAddMission);
+            if (fabAddMission != null) {
+                fabAddMission.setOnClickListener(v -> {
+                    try {
+                        showCreateMissionDialog();
+                    } catch (Exception e) {
+                        Log.e("CoordinatorMissions", "Error in FAB click", e);
+                        Toast.makeText(getContext(), "Lỗi mở dialog", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
-        loadMissions();
-        return view;
+            loadMissions();
+            return view;
+        } catch (Exception e) {
+            Log.e("CoordinatorMissions", "Error in onCreateView", e);
+            Toast.makeText(getContext(), "Lỗi tải màn hình", Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     private void loadMissions() {
-        String token = SharedPrefsManager.getInstance(getContext()).getAccessToken();
-        if (token == null) return;
+        try {
+            if (getContext() == null) {
+                Log.e("CoordinatorMissions", "Context is null");
+                return;
+            }
 
-        RetrofitClient.getApiService().listMissions("Bearer " + token, null, 1, 50)
-            .enqueue(new Callback<MissionListResponse>() {
-                @Override
-                public void onResponse(Call<MissionListResponse> call, Response<MissionListResponse> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        if (response.body().isSuccess() && response.body().getData() != null) {
-                            missionList.clear();
-                            missionList.addAll(response.body().getData());
-                            adapter.notifyDataSetChanged();
+            String token = SharedPrefsManager.getInstance(getContext()).getAccessToken();
+            if (token == null) {
+                Toast.makeText(getContext(), "Vui lòng đăng nhập lại", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            RetrofitClient.getApiService().listMissions("Bearer " + token, null, 1, 50)
+                .enqueue(new Callback<MissionListResponse>() {
+                    @Override
+                    public void onResponse(Call<MissionListResponse> call, Response<MissionListResponse> response) {
+                        try {
+                            if (getContext() == null) return;
+                            
+                            if (response.isSuccessful() && response.body() != null) {
+                                if (response.body().isSuccess() && response.body().getData() != null) {
+                                    missionList.clear();
+                                    missionList.addAll(response.body().getData());
+                                    if (adapter != null) {
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                } else {
+                                    Toast.makeText(getContext(), "Không có nhiệm vụ nào", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(getContext(), "Lỗi server: " + response.code(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.e("CoordinatorMissions", "Error in onResponse", e);
+                            Toast.makeText(getContext(), "Lỗi xử lý dữ liệu", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<MissionListResponse> call, Throwable t) {
-                    if(getContext() != null) {
-                        Toast.makeText(getContext(), "Không tải được danh sách Mission", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFailure(Call<MissionListResponse> call, Throwable t) {
+                        Log.e("CoordinatorMissions", "API call failed", t);
+                        if(getContext() != null) {
+                            Toast.makeText(getContext(), "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
+                });
+        } catch (Exception e) {
+            Log.e("CoordinatorMissions", "Error in loadMissions", e);
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Lỗi tải danh sách", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void showCreateMissionDialog() {

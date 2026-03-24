@@ -14,7 +14,6 @@ import com.example.prm_mo.models.ApiResponse;
 import com.example.prm_mo.models.Mission;
 import com.example.prm_mo.models.MissionListResponse;
 import com.example.prm_mo.models.Team;
-import com.example.prm_mo.models.UpdateTeamRequest;
 import com.example.prm_mo.utils.SharedPrefsManager;
 
 import java.util.ArrayList;
@@ -48,10 +47,6 @@ public class TeamDetailActivity extends AppCompatActivity {
         tvTeamStatus = findViewById(R.id.tvTeamStatus);
         llDispatchActions = findViewById(R.id.llDispatchActions);
         btnAssignMission = findViewById(R.id.btnAssignMission);
-
-        findViewById(R.id.btnEditTeam).setOnClickListener(v -> showEditDialog());
-        findViewById(R.id.btnDeleteTeam).setOnClickListener(v -> deleteTeam());
-        findViewById(R.id.btnAddMember).setOnClickListener(v -> showAddMemberDialog());
         btnAssignMission.setOnClickListener(v -> showAssignMissionDialog());
 
         loadTeamDetail();
@@ -199,154 +194,5 @@ public class TeamDetailActivity extends AppCompatActivity {
                         Toast.makeText(TeamDetailActivity.this, "Lỗi mạng", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void showEditDialog() {
-        if (currentTeam == null) return;
-
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        builder.setTitle("Sửa thông tin đội");
-
-        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
-        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
-
-        final android.widget.EditText inputName = new android.widget.EditText(this);
-        inputName.setText(currentTeam.getName());
-        layout.addView(inputName);
-
-        final android.widget.EditText inputStatus = new android.widget.EditText(this);
-        inputStatus.setText(currentTeam.getStatus());
-        layout.addView(inputStatus);
-
-        builder.setView(layout);
-
-        builder.setPositiveButton("Lưu", (dialog, which) -> {
-            String newName = inputName.getText().toString().trim();
-            String newStatus = inputStatus.getText().toString().trim();
-            updateTeam(newName, newStatus);
-        });
-        builder.setNegativeButton("Hủy", (dialog, which) -> dialog.cancel());
-        builder.show();
-    }
-
-    private void updateTeam(String name, String status) {
-        String token = SharedPrefsManager.getInstance(this).getAccessToken();
-        UpdateTeamRequest req = new UpdateTeamRequest(name, status);
-
-        RetrofitClient.getApiService().updateTeam("Bearer " + token, teamId, req).enqueue(new Callback<ApiResponse<Team>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<Team>> call, Response<ApiResponse<Team>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(TeamDetailActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                    loadTeamDetail();
-                } else {
-                    String error = "Cập nhật thất bại";
-                    if (response.body() != null && response.body().getMessage() != null) {
-                        error = response.body().getMessage();
-                    }
-                    Toast.makeText(TeamDetailActivity.this, error, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<Team>> call, Throwable t) {
-                Toast.makeText(TeamDetailActivity.this, "Lỗi mạng", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void deleteTeam() {
-        String token = SharedPrefsManager.getInstance(this).getAccessToken();
-        RetrofitClient.getApiService().deleteTeam("Bearer " + token, teamId).enqueue(new Callback<ApiResponse<Void>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<Void>> call, Response<ApiResponse<Void>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(TeamDetailActivity.this, "Đã xóa đội", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    String error = "Xóa thất bại (Đội phải đang AVAILABLE và không có thành viên)";
-                    if (response.body() != null && response.body().getMessage() != null) {
-                        error = response.body().getMessage();
-                    }
-                    Toast.makeText(TeamDetailActivity.this, error, Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<Void>> call, Throwable t) {
-                Toast.makeText(TeamDetailActivity.this, "Lỗi mạng", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void showAddMemberDialog() {
-        if (currentTeam == null) return;
-
-        Toast.makeText(this, "Đang tải danh sách thành viên...", Toast.LENGTH_SHORT).show();
-        String token = SharedPrefsManager.getInstance(this).getAccessToken();
-
-        RetrofitClient.getApiService().listUsers("Bearer " + token, "Citizen", true, null, 1, 100)
-                .enqueue(new Callback<com.example.prm_mo.models.UserListResponse>() {
-                    @Override
-                    public void onResponse(Call<com.example.prm_mo.models.UserListResponse> call, Response<com.example.prm_mo.models.UserListResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                            java.util.List<com.example.prm_mo.models.User> users = response.body().getData();
-                            if (users == null || users.isEmpty()) {
-                                Toast.makeText(TeamDetailActivity.this, "Không có Citizen nào để thêm", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-
-                            String[] displayNames = new String[users.size()];
-                            for (int i = 0; i < users.size(); i++) {
-                                displayNames[i] = users.get(i).getDisplayName() + " (" + users.get(i).getUserName() + ")";
-                            }
-
-                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(TeamDetailActivity.this);
-                            builder.setTitle("Chọn Thành Viên");
-                            builder.setItems(displayNames, (dialog, which) -> {
-                                addTeamMember(users.get(which).getId());
-                            });
-                            builder.setNegativeButton("Hủy", (dialog, which) -> dialog.cancel());
-                            builder.show();
-                        } else {
-                            Toast.makeText(TeamDetailActivity.this, "Lỗi tải người dùng", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<com.example.prm_mo.models.UserListResponse> call, Throwable t) {
-                        Toast.makeText(TeamDetailActivity.this, "Lỗi mạng", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void addTeamMember(String userId) {
-        String token = SharedPrefsManager.getInstance(this).getAccessToken();
-        com.example.prm_mo.models.AddTeamMemberRequest req = new com.example.prm_mo.models.AddTeamMemberRequest(userId);
-
-        RetrofitClient.getApiService().addTeamMember("Bearer " + token, teamId, req).enqueue(new Callback<ApiResponse<Object>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<Object>> call, Response<ApiResponse<Object>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(TeamDetailActivity.this, "Đã thêm thành viên", Toast.LENGTH_SHORT).show();
-                    loadTeamDetail();
-                } else {
-                    try {
-                        String error = "Thêm thất bại";
-                        if (response.errorBody() != null) {
-                            error = response.errorBody().string();
-                        } else if (response.body() != null && response.body().getMessage() != null) {
-                            error = response.body().getMessage();
-                        }
-                        Toast.makeText(TeamDetailActivity.this, error, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {}
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<Object>> call, Throwable t) {
-                Toast.makeText(TeamDetailActivity.this, "Lỗi mạng", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
