@@ -32,6 +32,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateRequestActivity"
+            android:exported="false" />
+        <activity
             android:name=".TeamHomeActivity"
             android:exported="false" />
         <activity

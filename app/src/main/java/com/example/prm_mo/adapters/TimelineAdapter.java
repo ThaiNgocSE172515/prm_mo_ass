@@ -1,6 +1,5 @@
 package com.example.prm_mo.adapters;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +8,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm_mo.R;
-import com.example.prm_mo.TimelineDetailActivity;
 import com.example.prm_mo.models.Timeline;
 import java.util.List;
 
 public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
 
+    public interface OnItemClickListener {
+        void onItemClick(Timeline timeline);
+    }
+
     private final List<Timeline> timelineList;
+    private OnItemClickListener listener;
 
     public TimelineAdapter(List<Timeline> timelineList) {
         this.timelineList = timelineList;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -60,15 +67,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.Timeli
         holder.tvStatus.setTextColor(Color.WHITE);
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), TimelineDetailActivity.class);
-            intent.putExtra("TIMELINE_ID", timeline.getId());
-
-            if (timeline.getMission() != null) {
-                intent.putExtra("MISSION_ID", timeline.getMission().getId());
-            }
-
-            intent.putExtra("TIMELINE_STATUS", timeline.getStatus());
-            v.getContext().startActivity(intent);
+            if (listener != null) listener.onItemClick(timeline);
         });
     }
 

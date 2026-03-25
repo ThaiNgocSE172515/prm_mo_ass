@@ -6,6 +6,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +33,12 @@ public class TeamHomeActivity extends AppCompatActivity {
     private ImageView btnLogout;
     private ImageView btnNotification;
 
+    // ActivityResultLauncher: tự động reload danh sách khi quay lại từ TimelineDetailActivity
+    private final ActivityResultLauncher<Intent> timelineLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                fetchMyTimelines(); // Luôn reload khi quay lại
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +50,18 @@ public class TeamHomeActivity extends AppCompatActivity {
 
         timelineList = new ArrayList<>();
         adapter = new TimelineAdapter(timelineList);
+
+        // Mở TimelineDetailActivity qua launcher để bắt kết quả
+        adapter.setOnItemClickListener(timeline -> {
+            Intent intent = new Intent(this, TimelineDetailActivity.class);
+            intent.putExtra("TIMELINE_ID", timeline.getId());
+            if (timeline.getMission() != null) {
+                intent.putExtra("MISSION_ID", timeline.getMission().getId());
+            }
+            intent.putExtra("TIMELINE_STATUS", timeline.getStatus());
+            timelineLauncher.launch(intent);
+        });
+
         rvTimelines.setAdapter(adapter);
 
         btnNotification = findViewById(R.id.btnNotification);
@@ -78,7 +98,6 @@ public class TeamHomeActivity extends AppCompatActivity {
                         Toast.makeText(TeamHomeActivity.this, "Bạn chưa được giao nhiệm vụ nào!", Toast.LENGTH_LONG).show();
                     }
                 } else if (response.code() == 401) {
-                    // TOKEN HẾT HẠN - ĐÂY LÀ CHỖ QUAN TRỌNG NHẤT
                     Toast.makeText(TeamHomeActivity.this, "Phiên đăng nhập hết hạn, vui lòng login lại", Toast.LENGTH_SHORT).show();
                     logout();
                 } else {

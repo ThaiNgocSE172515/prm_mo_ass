@@ -177,7 +177,7 @@ public interface ApiService {
     @PATCH("api/timelines/{id}/arrive")
     Call<ApiResponse<Timeline>> arriveTimeline(@Header("Authorization") String token, @Path("id") String timelineId);
 
-    @PATCH("api/timelines/{id}/complete")
+    @POST("api/timelines/{id}/complete")
     Call<ApiResponse<Timeline>> completeTimeline(
             @Header("Authorization") String token,
             @Path("id") String timelineId,
