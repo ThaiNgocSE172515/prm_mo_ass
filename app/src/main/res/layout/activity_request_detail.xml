@@ -1,324 +1,475 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F172A"
-    android:padding="16dp">
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_md">
 
-        <!-- Header -->
-        <RelativeLayout
+        <!-- Header Card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="@dimen/spacing_md"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:strokeColor="@color/card_stroke"
+            app:strokeWidth="1dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TIẾN TRÌNH XỬ LÝ"
-                android:textColor="#94A3B8"
-                android:textSize="12sp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"/>
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card">
 
-            <Button
-                android:id="@+id/btnCancelRequest"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_alignParentEnd="true"
-                android:backgroundTint="#EF4444"
-                android:text="HỦY YÊU CẦU"
-                android:textSize="10sp"
-                android:textColor="#FFFFFF"
-                android:visibility="gone" />
-        </RelativeLayout>
+                <!-- Title and Cancel Button -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-        <!-- TIẾN TRÌNH XỬ LÝ -->
-        <LinearLayout
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TIẾN TRÌNH XỬ LÝ"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/text_small"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnCancelRequest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_height_small"
+                        android:backgroundTint="@color/error"
+                        android:text="HỦY YÊU CẦU"
+                        android:textColor="@color/on_primary"
+                        android:textSize="@dimen/text_caption"
+                        android:visibility="gone"
+                        app:cornerRadius="@dimen/button_corner_radius_small" />
+                </LinearLayout>
+
+                <!-- Progress Steps -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <!-- Step 1 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/step1_circle"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/step_circle_background"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@color/on_surface_secondary"
+                            android:textSize="@dimen/text_small"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/step1_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:text="Đã gửi"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="@dimen/text_caption" />
+                    </LinearLayout>
+
+                    <View android:id="@+id/line1" android:layout_width="20dp" android:layout_height="1dp" android:background="@color/divider" />
+
+                    <!-- Step 2 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/step2_circle"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/step_circle_background"
+                            android:gravity="center"
+                            android:text="2"
+                            android:textColor="@color/on_surface_secondary"
+                            android:textSize="@dimen/text_small"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/step2_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:text="Chấp nhận"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="@dimen/text_caption" />
+                    </LinearLayout>
+
+                    <View android:id="@+id/line2" android:layout_width="20dp" android:layout_height="1dp" android:background="@color/divider" />
+
+                    <!-- Step 3 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/step3_circle"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/step_circle_background"
+                            android:gravity="center"
+                            android:text="3"
+                            android:textColor="@color/on_surface_secondary"
+                            android:textSize="@dimen/text_small"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/step3_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:text="Trên đường"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="@dimen/text_caption" />
+                    </LinearLayout>
+
+                    <View android:id="@+id/line3" android:layout_width="20dp" android:layout_height="1dp" android:background="@color/divider" />
+
+                    <!-- Step 4 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/step4_circle"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/step_circle_background"
+                            android:gravity="center"
+                            android:text="4"
+                            android:textColor="@color/on_surface_secondary"
+                            android:textSize="@dimen/text_small"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/step4_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:text="Hiện trường"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="@dimen/text_caption" />
+                    </LinearLayout>
+
+                    <View android:id="@+id/line4" android:layout_width="20dp" android:layout_height="1dp" android:background="@color/divider" />
+
+                    <!-- Step 5 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/step5_circle"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/step_circle_background"
+                            android:gravity="center"
+                            android:text="5"
+                            android:textColor="@color/on_surface_secondary"
+                            android:textSize="@dimen/text_small"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/step5_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:text="Hoàn thành"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="@dimen/text_caption" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Request Info Card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="32dp">
+            android:layout_marginBottom="@dimen/spacing_md"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:strokeColor="@color/card_stroke"
+            app:strokeWidth="1dp">
 
-            <!-- Step 1 -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card">
+
                 <TextView
-                    android:id="@+id/step1_circle"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@android:drawable/btn_default"
-                    android:backgroundTint="#334155"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="#94A3B8" />
-                <TextView
-                    android:id="@+id/step1_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đã gửi"
-                    android:textColor="#94A3B8"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                    android:text="THÔNG TIN YÊU CẦU"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="@dimen/spacing_sm" />
 
-            <View android:id="@+id/line1" android:layout_width="20dp" android:layout_height="1dp" android:background="#334155" />
-
-            <!-- Step 2 -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/step2_circle"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@android:drawable/btn_default"
-                    android:backgroundTint="#334155"
-                    android:gravity="center"
-                    android:text="2"
-                    android:textColor="#94A3B8" />
-                <TextView
-                    android:id="@+id/step2_text"
-                    android:layout_width="wrap_content"
+                <!-- Type and Status -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Chấp nhận"
-                    android:textColor="#94A3B8"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-            <View android:id="@+id/line2" android:layout_width="20dp" android:layout_height="1dp" android:background="#334155" />
+                    <TextView
+                        android:id="@+id/tvDetailType"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Rescue"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_h2"
+                        android:textStyle="bold" />
 
-            <!-- Step 3 -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/step3_circle"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@android:drawable/btn_default"
-                    android:backgroundTint="#334155"
-                    android:gravity="center"
-                    android:text="3"
-                    android:textColor="#94A3B8" />
-                <TextView
-                    android:id="@+id/step3_text"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvDetailStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/chip_background"
+                        android:paddingHorizontal="@dimen/spacing_md"
+                        android:paddingVertical="@dimen/spacing_xs"
+                        android:text="SUBMITTED"
+                        android:textColor="@color/on_primary"
+                        android:textSize="@dimen/text_small"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Incident Type -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Trên đường"
-                    android:textColor="#94A3B8"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-            <View android:id="@+id/line3" android:layout_width="20dp" android:layout_height="1dp" android:background="#334155" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Loại sự cố:"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_body"
+                        android:minWidth="100dp" />
 
-            <!-- Step 4 -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/step4_circle"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@android:drawable/btn_default"
-                    android:backgroundTint="#334155"
-                    android:gravity="center"
-                    android:text="4"
-                    android:textColor="#94A3B8" />
-                <TextView
-                    android:id="@+id/step4_text"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvDetailIncidentType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Flood"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body" />
+                </LinearLayout>
+
+                <!-- Description -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hiện trường"
-                    android:textColor="#94A3B8"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:orientation="vertical">
 
-            <View android:id="@+id/line4" android:layout_width="20dp" android:layout_height="1dp" android:background="#334155" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mô tả:"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_body" />
 
-            <!-- Step 5 -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/step5_circle"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@android:drawable/btn_default"
-                    android:backgroundTint="#334155"
-                    android:gravity="center"
-                    android:text="5"
-                    android:textColor="#94A3B8" />
-                <TextView
-                    android:id="@+id/step5_text"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvDetailDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:text="Mô tả chi tiết..."
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body" />
+                </LinearLayout>
+
+                <!-- People Count -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hoàn thành"
-                    android:textColor="#94A3B8"
-                    android:textSize="10sp" />
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Số người:"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_body"
+                        android:minWidth="100dp" />
+
+                    <TextView
+                        android:id="@+id/tvDetailPeopleCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body" />
+                </LinearLayout>
+
+                <!-- Priority -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mức độ:"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_body"
+                        android:minWidth="100dp" />
+
+                    <TextView
+                        android:id="@+id/tvDetailPriority"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="High"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body" />
+                </LinearLayout>
+
+                <!-- Created At -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thời gian gửi:"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_body"
+                        android:minWidth="100dp" />
+
+                    <TextView
+                        android:id="@+id/tvDetailCreatedAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2026-03-20"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body" />
+                </LinearLayout>
+
+                <!-- Location -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vị trí:"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_body" />
+
+                    <TextView
+                        android:id="@+id/tvDetailLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:text="10.7626, 106.6601"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body" />
+                </LinearLayout>
+
             </LinearLayout>
-        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="THÔNG TIN YÊU CẦU"
-            android:textColor="#94A3B8"
-            android:textSize="12sp"
-            android:layout_marginBottom="16dp" />
-
-        <TextView
-            android:id="@+id/tvDetailType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:text="Rescue" />
-
-        <TextView
-            android:id="@+id/tvDetailStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/holo_blue_light"
-            android:padding="4dp"
-            android:textColor="@android:color/white"
-            android:text="SUBMITTED" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Loại sự cố:"
-            android:textColor="#94A3B8"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvDetailIncidentType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:text="Flood" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Mô tả:"
-            android:textColor="#94A3B8"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvDetailDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:text="Mô tả chi tiết..." />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Số người:"
-            android:textColor="#94A3B8"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvDetailPeopleCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:text="3" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Mức độ:"
-            android:textColor="#94A3B8"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvDetailPriority"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:text="High" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Thời gian gửi:"
-            android:textColor="#94A3B8"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvDetailCreatedAt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:text="2026-03-20" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Vị trí (Location):"
-            android:textColor="#94A3B8"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvDetailLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:text="10.7626, 106.6601" />
-
-        <LinearLayout
+        <!-- Coordinator Actions Card -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/llCoordinatorActions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:orientation="horizontal"
             android:visibility="gone"
-            android:weightSum="2">
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:strokeColor="@color/card_stroke"
+            app:strokeWidth="1dp">
 
-            <Button
-                android:id="@+id/btnVerify"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="#10B981"
-                android:textColor="#FFFFFF"
-                android:text="VERIFY (DUYỆT)" />
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_card">
 
-            <Button
-                android:id="@+id/btnReject"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:backgroundTint="#EF4444"
-                android:textColor="#FFFFFF"
-                android:text="REJECT (TỪ CHỐI)" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/btnVerify"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:backgroundTint="@color/success"
+                    android:text="DUYỆT"
+                    android:textColor="@color/on_primary"
+                    android:textSize="@dimen/text_button"
+                    android:textStyle="bold"
+                    app:cornerRadius="@dimen/button_corner_radius" />
+
+                <Button
+                    android:id="@+id/btnReject"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_sm"
+                    android:backgroundTint="@color/error"
+                    android:text="TỪ CHỐI"
+                    android:textColor="@color/on_primary"
+                    android:textSize="@dimen/text_button"
+                    android:textStyle="bold"
+                    app:cornerRadius="@dimen/button_corner_radius" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </ScrollView>

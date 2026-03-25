@@ -35,6 +35,8 @@
         android:backgroundTint="@color/primary"
         android:src="@android:drawable/ic_input_add"
         app:tint="@color/on_primary"
-        android:contentDescription="Thêm nhiệm vụ" />
+        android:contentDescription="Thêm nhiệm vụ"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

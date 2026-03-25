@@ -163,7 +163,7 @@ public class RequestDetailActivity extends AppCompatActivity {
              btnCancelRequest.setVisibility(View.GONE);
         }
 
-        android.widget.LinearLayout llActions = findViewById(R.id.llCoordinatorActions);
+        com.google.android.material.card.MaterialCardView llActions = findViewById(R.id.llCoordinatorActions);
         if ("Rescue Coordinator".equals(role) && "SUBMITTED".equals(request.getStatus())) {
             llActions.setVisibility(android.view.View.VISIBLE);
             findViewById(R.id.btnVerify).setOnClickListener(v -> actionVerifyRequest(request.getId(), true, request.getPriority(), null));

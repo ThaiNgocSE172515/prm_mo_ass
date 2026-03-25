@@ -9,7 +9,7 @@
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/card_elevation"
     app:strokeColor="@color/card_stroke"
-    app:strokeWidth="@dimen/card_stroke_width">
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,9 +17,12 @@
         android:orientation="vertical"
         android:padding="@dimen/padding_card">
 
-        <RelativeLayout
+        <!-- Header with Type and Status -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/tvType"
@@ -28,81 +31,134 @@
                 android:text="Rescue"
                 android:textSize="@dimen/text_small"
                 android:textStyle="bold"
+                android:textColor="@color/on_primary"
                 app:chipBackgroundColor="@color/primary"
                 app:chipMinHeight="28dp"
                 app:chipStartPadding="8dp"
                 app:chipEndPadding="8dp" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:text="CHỜ XỬ LÝ"
                 android:textSize="@dimen/text_caption"
                 android:textStyle="bold"
-                app:chipBackgroundColor="@color/status_pending_bg"
+                android:textColor="@color/on_primary"
+                app:chipBackgroundColor="@color/status_pending"
                 app:chipMinHeight="24dp"
                 app:chipStartPadding="12dp"
                 app:chipEndPadding="12dp" />
-        </RelativeLayout>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvCitizenName"
+        <!-- Citizen Info -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_sm"
-            android:drawableStart="@android:drawable/ic_menu_myplaces"
-            android:drawableTint="@color/text_secondary"
-            android:drawablePadding="@dimen/spacing_sm"
-            android:gravity="center_vertical"
-            android:text="Người gửi: ..."
-            android:textStyle="bold"
-            android:textSize="@dimen/text_body"
-            android:textColor="@color/text_primary" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tvCitizenPhone"
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tvCitizenName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:text="Người gửi: ..."
+                android:textStyle="bold"
+                android:textSize="@dimen/text_body"
+                android:textColor="@color/text_primary" />
+        </LinearLayout>
+
+        <!-- Phone Info -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_xs"
-            app:srcCompat="@android:drawable/ic_menu_call"
-            android:drawableTint="@color/text_secondary"
-            android:drawablePadding="@dimen/spacing_sm"
-            android:gravity="center_vertical"
-            android:text="SĐT: ..."
-            android:textSize="@dimen/text_small"
-            android:textColor="@color/text_secondary" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tvAddress"
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@android:drawable/ic_menu_call"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tvCitizenPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:text="SĐT: ..."
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <!-- Address Info -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_xs"
-            android:drawableStart="@android:drawable/ic_menu_myplaces"
-            android:drawableTint="@color/text_secondary"
-            android:drawablePadding="@dimen/spacing_sm"
-            android:gravity="center_vertical"
-            android:text="Địa chỉ: ..."
-            android:textSize="@dimen/text_small"
-            android:textColor="@color/text_secondary"
-            android:maxLines="2"
-            android:ellipsize="end" />
+            android:orientation="horizontal"
+            android:gravity="top">
 
-        <TextView
-            android:id="@+id/tvPeopleCount"
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="2dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:text="Địa chỉ: ..."
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/text_secondary"
+                android:maxLines="2"
+                android:ellipsize="end" />
+        </LinearLayout>
+
+        <!-- People Count -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_xs"
-            android:drawableStart="@android:drawable/ic_menu_recent_history"
-            android:drawableTint="@color/error"
-            android:drawablePadding="@dimen/spacing_sm"
-            android:gravity="center_vertical"
-            android:text="Số người: ..."
-            android:textStyle="bold"
-            android:textSize="@dimen/text_small"
-            android:textColor="@color/error" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@android:drawable/ic_menu_recent_history"
+                app:tint="@color/error" />
+
+            <TextView
+                android:id="@+id/tvPeopleCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:text="Số người: ..."
+                android:textStyle="bold"
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/error" />
+        </LinearLayout>
+
+        <!-- Description -->
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
@@ -114,6 +170,7 @@
             android:textSize="@dimen/text_body"
             android:textColor="@color/text_primary" />
 
+        <!-- Footer with Incident Type and Date -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -127,6 +184,7 @@
                 android:layout_height="wrap_content"
                 android:text="Flood"
                 android:textSize="@dimen/text_caption"
+                android:textColor="@color/text_primary"
                 app:chipBackgroundColor="@color/surface_variant"
                 app:chipMinHeight="24dp"
                 app:chipStartPadding="8dp"
@@ -137,17 +195,27 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/tvDate"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@android:drawable/ic_menu_recent_history"
-                android:drawableTint="@color/text_tertiary"
-                android:drawablePadding="@dimen/spacing_xs"
-                android:gravity="center_vertical"
-                android:text="2026-03-20"
-                android:textSize="@dimen/text_caption"
-                android:textColor="@color/text_tertiary" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@android:drawable/ic_menu_recent_history"
+                    app:tint="@color/text_tertiary" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="2026-03-20"
+                    android:textSize="@dimen/text_caption"
+                    android:textColor="@color/text_tertiary" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
